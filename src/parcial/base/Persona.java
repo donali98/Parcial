@@ -29,5 +29,9 @@ public class Persona {
         this.dui = dui;
     }
     
-    
+    public Persona(String nombre, String apellido, String dui) {
+        this.nombres = new Nombre(nombre,apellido);
+        this.dui = new Dui(Dui.parseDui(dui));
+    }
+
 }
