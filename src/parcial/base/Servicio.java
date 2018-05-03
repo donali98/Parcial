@@ -28,5 +28,23 @@ public class Servicio {
         this.descripcion = descripcion;
     }
     
+    public Servicio(int id,String descrp) {
+        this.id  = id ;
+        this.descripcion = descrp ;
+    }
+    
+    public static Servicio pedir(int i){
+        while (true){
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Ingrese la descripcion del servicio "+(i+1)+": ");
+            String des = scanner.nextLine();
+            if(des.length()< 5){
+                System.out.println("Descripcion demasiado corta");
+            }
+            else{
+                return new Servicio((i+1),des);
+            }
+        }
+    }
     
 }
