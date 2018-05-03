@@ -5,6 +5,8 @@
  */
 package parcial.utils;
 
+import java.util.Scanner;
+
 /**
  *
  * @author Toshiba
@@ -49,4 +51,27 @@ public class Dui {
             return new int[]{};
         }
     }
+    public String getDigitos() {
+        String out ="";
+        int i= 0;
+        for (int digito: this.digitos){
+            if(i==8) out+="-";
+            out+= String.valueOf(digito);
+            i++;
+        }
+        return out;
+    }
+
+    public static String pedir(){
+        String dui;
+        Scanner reader = new Scanner(System.in);
+        while (true) {
+            System.out.println("DUI del usuario:");
+            dui = reader.next();
+            if (Dui.validarDui(dui)) break;
+            else System.out.println("DUI no valido");
+        }
+        return dui;
+    }    
+    
 }
