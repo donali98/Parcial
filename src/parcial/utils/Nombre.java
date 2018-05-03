@@ -28,4 +28,13 @@ public class Nombre {
         this.apellidos = apellidos;
     }
      
+    
+    public Nombre(String nombres, String apellidos){
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+    }
+    
+    public static boolean validarNombre(String nombres, String apellidos){
+        return true;
+    }
 }
