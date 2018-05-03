@@ -28,5 +28,11 @@ public class Reservacion {
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
     }
-
+    
+        public Reservacion(String nombre, String apellido, String dui,Habitacion habitacion, LocalDate fechaInicio,LocalDate fechaFin) {
+        this.habitacion = habitacion;
+        this.huesped = new Huesped(nombre,apellido,dui);
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+    }
 }
