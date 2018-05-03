@@ -35,6 +35,26 @@ public class Nombre {
     }
     
     public static boolean validarNombre(String nombres, String apellidos){
-        return true;
+        char nombre, apellido;
+            boolean nom, ape;
+            nom = ape = false;
+            for (int i = 0; i < nombres.length(); i ++){
+                nombre = nombres.charAt(i);
+                if(Character.isAlphabetic(nombre) || Character.isDigit(i)) nom = true;
+                else {
+                    nom = false;
+                    break;
+                }
+            }
+            for (int j = 0; j < apellidos.length(); j ++){
+                apellido = apellidos.charAt(j);
+                if(Character.isAlphabetic(apellido) || Character.isDigit(apellido)) ape = true;
+                else{
+                    ape = false;
+                    break;
+                }
+            }
+
+            return nom == true && ape == true;
+        }
     }
-}
