@@ -47,4 +47,16 @@ public class Servicio {
         }
     }
     
+    public static String pedir(){
+        Scanner scanner = new Scanner(System.in);
+
+        while (true){
+            System.out.println("Ingrese la descripcion del servicio: ");
+            String de = scanner.nextLine();
+            if(de.length() < 5){
+                System.out.println("Descripcion demasiado corta");
+            }
+            else return de;
+        }
+    }
 }
