@@ -57,4 +57,19 @@ public class Nombre {
 
             return nom == true && ape == true;
         }
+    public static String[] pedir(){
+
+        String nombre, apellidido;
+        Scanner reader = new Scanner(System.in);
+
+        while (true){
+            System.out.println("Nombre del usuario:");
+            nombre = reader.nextLine();
+            System.out.println("Apellido del usuario:");
+            apellidido = reader.nextLine();
+            if(Nombre.validarNombre(nombre,apellidido)) break;
+            else System.out.println("Atencion, nombre o apellidos no validos");
+        }
+        return new String[]{nombre,apellidido};
     }
+}
