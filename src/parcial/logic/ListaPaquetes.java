@@ -6,10 +6,15 @@
 
 package parcial.logic;
 
-/**
- *
- * @author alex
- */
-public class ListaPaquetes {
+import parcial.base.Paquete;
+import parcial.base.Servicio;
+import parcial.utils.menu;
+import java.util.ArrayList;
+import java.util.Scanner;
 
+public class ListaPaquetes {
+    
+    private ListaPaquetes(){}
+    private static ListaPaquetes listaPaquetes;
+    private static ArrayList<Paquete> paquetes = new ArrayList<>();
 }
