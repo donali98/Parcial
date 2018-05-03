@@ -12,6 +12,22 @@ public class Persona {
     
     private Nombre nombres;
     private Dui dui;
+
+    public Nombre getNombres() {
+        return nombres;
+    }
+
+    public void setNombres(Nombre nombres) {
+        this.nombres = nombres;
+    }
+
+    public Dui getDui() {
+        return dui;
+    }
+
+    public void setDui(Dui dui) {
+        this.dui = dui;
+    }
     
     
 }
