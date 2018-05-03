@@ -8,6 +8,16 @@ import java.util.Scanner;
 
 public class ListaPaquetes {
 
+    private ListaPaquetes(){}
+    private static ListaPaquetes listaPaquetes;
+    private static ArrayList<Paquete> paquetes = new ArrayList<>();
+
+    public static ListaPaquetes getInstance(){
+        if(listaPaquetes == null){
+            listaPaquetes = new ListaPaquetes();
+        }
+        return listaPaquetes;
+    }
 
 
 }
