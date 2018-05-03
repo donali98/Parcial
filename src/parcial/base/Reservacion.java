@@ -20,4 +20,13 @@ public class Reservacion {
     private Paquete paquete;
     private LocalDate fechaInicio;
     private  LocalDate fechaFin;    
+    
+    public Reservacion(String nombre, String apellido, String dui,Habitacion habitacion, Paquete paquete,LocalDate fechaInicio, LocalDate fechaFin) {
+        this.habitacion = habitacion;
+        this.paquete = paquete;
+        this.huesped = new Huesped(nombre,apellido,dui);
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+    }
+
 }
