@@ -37,5 +37,9 @@ public class ListaPaquetes {
     public void addServicioPaquete(Paquete paquete,String descripcion ){
        paquete.addNewServicio(descripcion);
     }
+    
+     public  void updatePaquete(String nombrePaquete){
+         
+     }
 
 }
