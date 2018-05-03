@@ -5,10 +5,13 @@
  */
 package parcial.base;
 
-/**
- *
- * @author Toshiba
- */
+import parcial.utils.Dui;
+import parcial.utils.Nombre;
+
 public class Persona {
+    
+    private Nombre nombres;
+    private Dui dui;
+    
     
 }
