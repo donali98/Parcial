@@ -4,10 +4,10 @@
  * and open the template in the editor.
  */
 package parcial.logic;
-import parcialpoo.base.Habitacion;
-import parcialpoo.base.Reservacion;
-import parcialpoo.utils.Dui;
-import parcialpoo.utils.Nombre;
+import  parcial.base.Habitacion;
+import parcial.base.Reservacion;
+import parcial.utils.Dui;
+import parcial.utils.Nombre;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
