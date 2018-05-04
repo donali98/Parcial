@@ -111,26 +111,6 @@ private static Menu menu;
             }
         }
     }
-    public void menuReservaciones(){
-        menuPaquete();
-        int selected = 10;
-        Scanner scanner = new Scanner(System.in);
-        while (selected!=0){
-            try {
-                this.crearMenu(new String[]{"1-Agregar reservacion"});
-                selected = scanner.nextInt();
-                switch (selected){
-                    case 1:
-                        ListaReservacion.getInstance().addReservacion();
-                        selected = 0;
-                        break;
-                }
-
-            }
-            catch (Exception e){
-
-            }
-        }
-    }
+    
     
 }
