@@ -72,10 +72,11 @@ public class ListaHabitacion {
                         tipo = "sencilla";
                     }
                 }
-                listaHabitaciones.add(new Habitacion(codigo,precio,tipo,"habilitada"));
+                listaHabitaciones.add(new Habitacion(codigo,precio,tipo,"disponible"));
             }
         }
     }
+
     
     public static ListaHabitacion getInstance(){
         if(listaHabitacion == null){
