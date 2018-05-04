@@ -104,6 +104,9 @@ public class ListaReservacion {
     }
 
     public void eliminarReservacion(){
+
+        Scanner scanner = new Scanner(System.in);
+
         System.out.println("Habitaciones con reservacion:   ");
         for (Habitacion habitacion: this.validarDisponibilidad(false)){
             System.out.println(habitacion.getCodigo()+"  |   "+habitacion.getPrecio());
@@ -111,6 +114,45 @@ public class ListaReservacion {
                 System.out.println("---------------------------------------------------------------------");
             }
         }
+        int op = 10;
+        while (op!=0){
+            System.out.println("Ingrese una habitacion por el codigo: ");
+            String codigo = scanner.next().toUpperCase();
+            //Valida existencia de la habitacion
+            Habitacion habitacion =  this.validarCodigo(codigo);
+            if(habitacion!=null){
+                //Si quiere eliminar la reservacion
+                if(this.mostrarMenuConfirmacion("Esta seguro que desea eliminar la reservacion asociada con la habitacion "+codigo)){
+                    //busca la reservacion
+                    Reservacion reservacionAEliminar = buscarReservacion(habitacion);
+                    //si la encuentra
+                    if(reservacionAEliminar!=null){
+                        reservaciones.remove(reservacionAEliminar);
+                        op = 0;
+                        System.out.println("Reservacion eliminada con exito");
+                    }
+                }
+                
+            }
+        }
+
+
+
+    }
+
+    private Reservacion buscarReservacion(Habitacion habitacion){
+        for (Reservacion reservacion:reservaciones){
+            if(reservacion.getHabitacion().equals(habitacion)){
+                return reservacion;
+            }
+        }
+        return null;
+    }
+
+    private void cambiarEstadoHabitacion(boolean estado,Habitacion habitacion){
+       if(estado){
+
+       }
     }
     private boolean validarDuracionReserva(LocalDate fecha){
         LocalDate fechaLimite = fecha.plusDays(7);
@@ -121,7 +163,29 @@ public class ListaReservacion {
         LocalDate parsedDate = LocalDate.parse(fecha,formatter);
         return  parsedDate;
     }
-private String sugerirPaquete(){
+
+    private boolean mostrarMenuConfirmacion(String pregunta){
+        Scanner scanner = new Scanner(System.in);
+        int op = 10;
+        while (op!=0){
+            System.out.println(pregunta+"s/n?");
+            String resp = scanner.next();
+            switch (resp){
+                case "s":
+                    op = 0;
+                    return true;
+                case "n":
+                    op = 0;
+                    return false;
+                default:
+                    System.out.println("Opcion no valida");
+                break;
+            }
+        }
+        return true;
+    }
+
+    private String sugerirPaquete(){
         Scanner scanner = new Scanner(System.in);
         String selected;
         int op = 10;
