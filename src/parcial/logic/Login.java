@@ -20,5 +20,16 @@ public class Login {
         else return login;
     }
     
+    private static Usuario autenticar(String user, String pass){
+
+        for (Usuario usuario: ListaUsuarios.getLista()){
+            if (usuario.getUser().equals(user) && usuario.getPass().equals(pass)){
+                return usuario;
+            }
+        }
+        return null;
+    }
+    
+    
     
 }
