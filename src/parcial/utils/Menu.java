@@ -11,4 +11,13 @@ package parcial.utils;
  */
 public class Menu {
     
+private static Menu menu;
+    private Menu(){}
+
+    public static Menu getInstance(){
+        if(menu == null){
+            menu = new Menu();
+        }
+        return menu;
+    }    
 }
