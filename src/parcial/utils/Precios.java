@@ -26,6 +26,7 @@ public class Precios {
         return precioDoble;
     }
     
+    
     public static void pedirPrecios(){
         Scanner scanner = new Scanner(System.in);
         while (true){
