@@ -17,7 +17,7 @@ public class ListaUsuarios {
         if(listaUsuarios == null){
             listaUsuarios = new ListaUsuarios();
             lista = new ArrayList<>();
-            System.out.println("dasdas");
+            lista = new ArrayList<>();
 
         }
         return listaUsuarios;

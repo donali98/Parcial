@@ -5,6 +5,9 @@
  */
 package parcial;
 
+import parcial.logic.ListaUsuarios;
+import parcial.logic.Login;
+
 /**
  *
  * @author dona
@@ -16,6 +19,11 @@ public class Parcial {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        System.out.println("------Ingrese los datos del administrador------");
+        String id = ListaUsuarios.getInstance().addUser();
+        System.out.println("Su usuario es "+id+"\n");
+        System.out.println("------Bienvenido al Hotel------\n");
+        Login.loguear();
     }
     
 }
