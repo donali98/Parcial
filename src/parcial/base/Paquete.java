@@ -65,7 +65,7 @@ public class Paquete {
                             servSelected = 0;
                             break;
                         case 0:
-                            Menu.getInstance().menuPaquete();
+                            Menu.getInstance().menuPaquete(1);
                             break;
 
                         default:
@@ -96,7 +96,7 @@ public class Paquete {
                             servSelected = 0;
                             break;
                         case 0:
-                            Menu.getInstance().menuPaquete();
+                            Menu.getInstance().menuPaquete(1);
                             break;
 
                         default:
