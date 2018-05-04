@@ -117,7 +117,9 @@ private static Menu menu;
 
         //Si no existe ningun paquete
         if(ListaPaquetes.getInstance().getPaquetes().size() == 0){
-            while (true){
+
+
+                while (true){
                     try{
                         //Creando los 3 paquete
                         System.out.println("Ingrese la cantidad de servicios para el paquete Premium: ");
@@ -152,8 +154,58 @@ private static Menu menu;
                         scanner.next();
                         System.out.println("Valor no valido");
                     }
-        }
+
+                }
+            }
+
         }
 
+    public void menuEmpleados(){
+        int selected = 10;
+        String result;
+        Scanner reader = new Scanner(System.in);
+        while (selected!=0){
+            try{
+                this.crearMenu(new String[]{
+                        "1-Agregar Recepcionista",
+                        "2-Modificar Recepcionista",
+                        "3-Eliminar Recepcionista",
+                        "4-Cambiar clave",
+                        "5-Volver al menu"
+                });
+                selected = reader.nextInt();
+                switch (selected){
+                    case 1:
+                        ListaUsuarios.getInstance().addUser();
+                        break;
+                    case 2:
+                        result = ListaUsuarios.getInstance().performAction("update");
+                        while (result.equals("noEncontrado") && !result.equals("0"))
+                        { result = ListaUsuarios.getInstance().performAction("update"); }
+                        break;
+                    case 3:
+                        result = ListaUsuarios.getInstance().performAction("delete");
+                        while (result.equals("noEncontrado") && !result.equals("0"))
+                        { result = ListaUsuarios.getInstance().performAction("delete"); }
+                        break;
+                    case 5:
+                        this.menuPrincipal();
+                        selected =0;
+                        break;
+                    default:
+                        System.out.println("No ha ingresado una opcion valida");
+                        break;
+                }
+
+            }
+            catch (Exception e){
+                reader.next();
+                System.out.println("Valor no valido");
+            }
+        }
+
+
+    }
+    
     
 }
