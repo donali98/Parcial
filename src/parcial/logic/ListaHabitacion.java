@@ -76,4 +76,18 @@ public class ListaHabitacion {
             }
         }
     }
+    
+    public static ListaHabitacion getInstance(){
+        if(listaHabitacion == null){
+            listaHabitaciones = new ArrayList<>();
+            listaHabitacion = new ListaHabitacion();
+
+            pedirCantiPisos();
+            llenarValoresUnicode();
+            crearEdificio();
+
+
+        }
+        return listaHabitacion;
+    }
 }
