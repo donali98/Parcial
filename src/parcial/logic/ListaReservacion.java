@@ -22,5 +22,13 @@ public class ListaReservacion {
      private ListaReservacion(){}
     private static ListaReservacion listaReservacion;
     private static ArrayList<Reservacion> reservaciones;
+   
+    public static ListaReservacion getInstance(){
+        if(listaReservacion == null){
+            listaReservacion = new ListaReservacion();
+            reservaciones = new ArrayList<>();
+        }
+        return listaReservacion;
+    }
     
 }
