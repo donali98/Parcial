@@ -34,6 +34,7 @@ private static Menu menu;
         for (String opcion:opciones){
             System.out.println(opcion);
         }
+    }
     //Metodo del menu principal
     public void menuPrincipal(){
         int selected = 10;
