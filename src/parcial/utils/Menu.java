@@ -117,6 +117,43 @@ private static Menu menu;
 
         //Si no existe ningun paquete
         if(ListaPaquetes.getInstance().getPaquetes().size() == 0){
+            while (true){
+                    try{
+                        //Creando los 3 paquete
+                        System.out.println("Ingrese la cantidad de servicios para el paquete Premium: ");
+                        int canti = scanner.nextInt();
+                        ListaPaquetes.getInstance().addPaquete("Premium",canti);
+                        System.out.println("Ingrese la cantidad de servicios para el paquete Basico: ");
+                        canti = scanner.nextInt();
+                        ListaPaquetes.getInstance().addPaquete("Basico",canti);
+                        int packSelected = 10;
+                        while (packSelected!=0){
+                            this.crearMenu(new String[]{"1-Agregar servicios","2-Modificar servicios","0-Salir"});
+                            packSelected = scanner.nextInt();
+                            switch (packSelected){
+                                case 1:
+                                    Paquete.performAction("insert");
+                                    break;
+                                case 2:
+                                    Paquete.performAction("update");
+                                    packSelected = 0;
+                                    break;
+                                case 0:
+                                    Menu.getInstance().menuPrincipal();
+                                    break;
+                                    default:
+                                        System.out.println("Valor no valido");
+                                    break;
+                            }
+                        }
+                        break;
+                    }
+                    catch (Exception e) {
+                        scanner.next();
+                        System.out.println("Valor no valido");
+                    }
+        }
+        }
 
     
 }
