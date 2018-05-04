@@ -95,5 +95,11 @@ public class ListaReservacion {
         LocalDate fechaLimite = fecha.plusDays(7);
         return fecha.isAfter(fechaLimite);
     }
+    private LocalDate parseDate(String fecha){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate parsedDate = LocalDate.parse(fecha,formatter);
+        return  parsedDate;
+    }
+
     
 }
