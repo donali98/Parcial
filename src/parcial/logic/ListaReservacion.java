@@ -141,5 +141,16 @@ private String sugerirPaquete(){
         }
         return "";
     }
+private ArrayList<Habitacion> validarDisponibilidad(){
+        ArrayList<Habitacion> habitacionesDisponibles = new ArrayList<>();
+
+        for (Habitacion habitacion: ListaHabitacion.getListaHabitaciones()){
+            if(!habitacion.getEstado().contains("ocupada") || !habitacion.getEstado().contains("deshabilitada")){
+                habitacionesDisponibles.add(habitacion);
+            }
+        }
+        return habitacionesDisponibles;
+
+    }
     
 }
