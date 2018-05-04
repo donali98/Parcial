@@ -12,7 +12,6 @@ import parcial.utils.Nombre;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Scanner;
 /**
  *
@@ -32,6 +31,7 @@ public class ListaReservacion {
     }
     
     public void addReservacion(){
+        Reservacion reservacion;
         Scanner scanner = new Scanner(System.in);
         System.out.println("Habitaciones disponibles: ");
         System.out.println("------------------------------------------------------------------------");
@@ -46,7 +46,7 @@ public class ListaReservacion {
         while (op!=0){
             try {
                 System.out.println("Elija una habitacion por su codigo");
-                String codigoHabitacion = scanner.next();
+                String codigoHabitacion = scanner.next().toUpperCase();
                 Habitacion habitacionAReservar = this.validarCodigo(codigoHabitacion);
                 if(habitacionAReservar!=null){
                     op = 0;
@@ -66,18 +66,27 @@ public class ListaReservacion {
                     String paquete = this.sugerirPaquete();
 
                     if(!paquete.contains("")){
+
                         switch (paquete){
                             case "Premium":
-                                reservaciones.add(new Reservacion(nombres[0],nombres[1],dui,habitacionAReservar,ListaPaquetes.getInstance().getPaquetes().get(0),fechaInicio,fechaFin));
-
+                                reservacion = new Reservacion(nombres[0],nombres[1],dui,habitacionAReservar,ListaPaquetes.getInstance().getPaquetes().get(0),fechaInicio,fechaFin);
+                                reservaciones.add(reservacion);
+                                ListaHabitacion.getListaHabitaciones().get(ListaHabitacion.getListaHabitaciones().indexOf(reservacion.getHabitacion())).setEstado("ocupada");
                                 break;
                             case "Basico":
-                                reservaciones.add(new Reservacion(nombres[0],nombres[1],dui,habitacionAReservar,ListaPaquetes.getInstance().getPaquetes().get(1),fechaInicio,fechaFin));
-
+                                reservacion  = new Reservacion(nombres[0],nombres[1],dui,habitacionAReservar,ListaPaquetes.getInstance().getPaquetes().get(1),fechaInicio,fechaFin);
+                                reservaciones.add(reservacion);
+                                ListaHabitacion.getListaHabitaciones().get(ListaHabitacion.getListaHabitaciones().indexOf(reservacion.getHabitacion())).setEstado("ocupada");
                                 break;
                         }
+
                     }
-                    else reservaciones.add(new Reservacion(nombres[0],nombres[1],dui,habitacionAReservar,fechaInicio,fechaFin));
+
+                    else{
+                        reservacion = new Reservacion(nombres[0],nombres[1],dui,habitacionAReservar,fechaInicio,fechaFin);
+                        reservaciones.add(reservacion);
+                        ListaHabitacion.getListaHabitaciones().get(ListaHabitacion.getListaHabitaciones().indexOf(reservacion.getHabitacion())).setEstado("ocupada");
+                    }
                     System.out.println("Reservacion realizada con exito");
                 }
                 else{
@@ -145,7 +154,7 @@ private ArrayList<Habitacion> validarDisponibilidad(){
         ArrayList<Habitacion> habitacionesDisponibles = new ArrayList<>();
 
         for (Habitacion habitacion: ListaHabitacion.getListaHabitaciones()){
-            if(!habitacion.getEstado().contains("ocupada") || !habitacion.getEstado().contains("deshabilitada")){
+            if(!habitacion.getEstado().contains("ocupada") && !habitacion.getEstado().contains("deshabilitada")){
                 habitacionesDisponibles.add(habitacion);
             }
         }

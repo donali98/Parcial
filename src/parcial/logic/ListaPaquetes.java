@@ -71,7 +71,7 @@ public class ListaPaquetes {
                             if(!encontrado) System.out.println("Servicio no encontrado");
                             break;
                         case 0:
-                            Menu.getInstance().menuPaquete();
+                            Menu.getInstance().menuPaquete(1);
                             break;
                     }
                 }

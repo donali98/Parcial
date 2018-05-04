@@ -35,13 +35,17 @@ public class ListaUsuarios {
         String pass;
         Scanner reader = new Scanner(System.in);
 
-        nombres = Nombre.pedir();
+        //USUARIO LOGIN QUEMADO
+        /*nombres = Nombre.pedir();
         dui = Dui.pedir();
 
         System.out.println("Clave para entrar al sistema: ");
-        pass = reader.next();
+        pass = reader.next();*/
+
         //corregir
-        Usuario user = new Usuario(nombres[0], nombres[1], dui, pass, Globals.USUARIO_ADMIN);
+        //Usuario user = new Usuario(nombres[0], nombres[1], dui, pass, Globals.USUARIO_ADMIN);
+        Usuario user = new Usuario("d","d", "056741785", "1", Globals.USUARIO_ADMIN);
+
         ListaUsuarios.getLista().add(user);
         return ListaUsuarios.getLista().get(ListaUsuarios.getLista().indexOf(user)).getUser();
 
