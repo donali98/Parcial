@@ -112,5 +112,11 @@ private static Menu menu;
         }
     }
     
+    public void menuPaquete(){
+        Scanner scanner = new Scanner(System.in);
+
+        //Si no existe ningun paquete
+        if(ListaPaquetes.getInstance().getPaquetes().size() == 0){
+
     
 }
