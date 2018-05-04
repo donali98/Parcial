@@ -30,6 +30,24 @@ public class Login {
         return null;
     }
     
+    public static void loguear(){
+        String user, pass;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Ingrese su usuario:");
+        user = scanner.next();
+        System.out.println("Ingrese su clave:");
+        pass = scanner.next();
+        Usuario usuario = autenticar(user,pass);
+        if(usuario!=null){
+            switch (usuario.getTipo()){
+                case (Globals.USUARIO_ADMIN):
+                    Menu.getInstance().menuPrincipal();
+                    break;
+            }
+        }
+
+    }
+    
     
     
 }
