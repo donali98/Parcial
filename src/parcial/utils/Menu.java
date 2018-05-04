@@ -6,6 +6,11 @@
 package parcial.utils;
 
 import java.util.Scanner;
+import parcialpoo.base.Paquete;
+import parcialpoo.logic.ListaHabitacion;
+import parcialpoo.logic.ListaPaquetes;
+import parcialpoo.logic.ListaReservacion;
+import parcialpoo.logic.ListaUsuarios;
 
 /**
  *
