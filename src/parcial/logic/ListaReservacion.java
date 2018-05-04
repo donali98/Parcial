@@ -91,5 +91,9 @@ public class ListaReservacion {
         }
 
     }
+    private boolean validarDuracionReserva(LocalDate fecha){
+        LocalDate fechaLimite = fecha.plusDays(7);
+        return fecha.isAfter(fechaLimite);
+    }
     
 }
