@@ -19,6 +19,8 @@ import java.util.Scanner;
  * @author Guille
  */
 public class ListaReservacion {
-    
+     private ListaReservacion(){}
+    private static ListaReservacion listaReservacion;
+    private static ArrayList<Reservacion> reservaciones;
     
 }
