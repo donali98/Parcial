@@ -110,13 +110,17 @@ private static Menu menu;
         Scanner scanner = new Scanner(System.in);
         while (selected!=0){
             try {
-                this.crearMenu(new String[]{"1-Agregar reservacion"});
+                this.crearMenu(new String[]{"1-Agregar reservacion","2-Cancelar reservacion"});
                 selected = scanner.nextInt();
                 switch (selected){
                     case 1:
                         ListaReservacion.getInstance().addReservacion();
                         selected = 0;
-                        break;
+                    break;
+                    case 2:
+                        ListaReservacion.getInstance().eliminarReservacion();
+                        selected = 0;
+                    break;
                 }
 
             }

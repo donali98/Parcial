@@ -29,13 +29,15 @@ public class ListaReservacion {
         }
         return listaReservacion;
     }
+
+
     
     public void addReservacion(){
         Reservacion reservacion;
         Scanner scanner = new Scanner(System.in);
         System.out.println("Habitaciones disponibles: ");
         System.out.println("------------------------------------------------------------------------");
-        for (Habitacion habitacion: this.validarDisponibilidad()){
+        for (Habitacion habitacion: this.validarDisponibilidad(true)){
             System.out.println(habitacion.getCodigo()+"  |   "+habitacion.getPrecio());
             if(habitacion.getCodigo().substring(1,habitacion.getCodigo().length()).contains("10")){
                 System.out.println("---------------------------------------------------------------------");
@@ -100,6 +102,16 @@ public class ListaReservacion {
         }
 
     }
+
+    public void eliminarReservacion(){
+        System.out.println("Habitaciones con reservacion:   ");
+        for (Habitacion habitacion: this.validarDisponibilidad(false)){
+            System.out.println(habitacion.getCodigo()+"  |   "+habitacion.getPrecio());
+            if(habitacion.getCodigo().substring(1,habitacion.getCodigo().length()).contains("10")){
+                System.out.println("---------------------------------------------------------------------");
+            }
+        }
+    }
     private boolean validarDuracionReserva(LocalDate fecha){
         LocalDate fechaLimite = fecha.plusDays(7);
         return fecha.isAfter(fechaLimite);
@@ -150,12 +162,22 @@ private String sugerirPaquete(){
         }
         return "";
     }
-private ArrayList<Habitacion> validarDisponibilidad(){
+private ArrayList<Habitacion> validarDisponibilidad(boolean sentido){
         ArrayList<Habitacion> habitacionesDisponibles = new ArrayList<>();
 
-        for (Habitacion habitacion: ListaHabitacion.getListaHabitaciones()){
-            if(!habitacion.getEstado().contains("ocupada") && !habitacion.getEstado().contains("deshabilitada")){
-                habitacionesDisponibles.add(habitacion);
+        if(sentido){
+            for (Habitacion habitacion: ListaHabitacion.getListaHabitaciones()){
+                if(!habitacion.getEstado().contains("ocupada") && !habitacion.getEstado().contains("deshabilitada")){
+                    habitacionesDisponibles.add(habitacion);
+                }
+            }
+        }
+        else
+        {
+            for (Habitacion habitacion: ListaHabitacion.getListaHabitaciones()){
+                if(habitacion.getEstado().contains("ocupada") && !habitacion.getEstado().contains("deshabilitada")){
+                    habitacionesDisponibles.add(habitacion);
+                }
             }
         }
         return habitacionesDisponibles;
