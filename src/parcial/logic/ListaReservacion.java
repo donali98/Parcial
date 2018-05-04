@@ -152,5 +152,15 @@ private ArrayList<Habitacion> validarDisponibilidad(){
         return habitacionesDisponibles;
 
     }
+private Habitacion validarCodigo(String codigo){
+        for(Habitacion habitacion: ListaHabitacion.getListaHabitaciones()){
+            if(habitacion.getCodigo().contains(codigo)){
+               return habitacion;
+
+            }
+        }
+        return null;
+
+    }
     
 }
