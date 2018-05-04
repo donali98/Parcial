@@ -6,11 +6,11 @@
 package parcial.utils;
 
 import java.util.Scanner;
-import parcialpoo.base.Paquete;
-import parcialpoo.logic.ListaHabitacion;
-import parcialpoo.logic.ListaPaquetes;
-import parcialpoo.logic.ListaReservacion;
-import parcialpoo.logic.ListaUsuarios;
+import parcial.base.Paquete;
+import parcial.logic.ListaHabitacion;
+import parcial.logic.ListaPaquetes;
+import parcial.logic.ListaReservacion;
+import parcial.logic.ListaUsuarios;
 
 /**
  *
@@ -27,6 +27,13 @@ private static Menu menu;
         }
         return menu;
     }
+    
+    // Crear menu
+    public void crearMenu(String[] opciones){
+        System.out.println("------Seleccione una opcion------\n");
+        for (String opcion:opciones){
+            System.out.println(opcion);
+        }
     //Metodo del menu principal
     public void menuPrincipal(){
         int selected = 10;
