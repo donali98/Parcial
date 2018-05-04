@@ -55,5 +55,38 @@ private static Menu menu;
             }
 
         }
-    }    
+    }
+    public void menuHotel(){
+        //Generando al hotel
+        ListaHabitacion.getInstance();
+
+        Scanner scanner = new Scanner(System.in);
+        int selected = 10;
+        while (selected!=0){
+            try{
+                this.crearMenu(new String[]{"1-Reservaciones","2-Administrar paquetes","0-Salir"});
+                selected = scanner.nextInt();
+                switch (selected){
+                    case 1:
+                        menuReservaciones();
+                        break;
+                    case 2:
+                        menuPaquete();
+                        selected = 0;
+                        break;
+                    case 0:
+                        menuPrincipal();
+                        break;
+                    default:
+                        System.out.println("Opcion no valida");
+                        break;
+                }
+            }
+            catch (Exception e){
+                scanner.next();
+                System.out.println("Valor no valido");
+
+            }
+        }
+    }
 }
