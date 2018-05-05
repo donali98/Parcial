@@ -24,8 +24,8 @@ public class ListaHabitacion {
            try {
                System.out.println("Ingrese la cantidad de pisos del hotel: ");
                cantiPisos = scanner.nextInt();
-               if (cantiPisos>27 || cantiPisos<3){
-                   System.out.println("La cantidad de pisos no puede ser menor que 3 y mayor a 27");
+               if (cantiPisos>26 || cantiPisos<3){
+                   System.out.println("La cantidad de pisos no puede ser menor que 3 y mayor a 26");
                }
                else break;
            }
@@ -39,41 +39,51 @@ public class ListaHabitacion {
     private static void llenarValoresUnicode(){
         int contador = 0;
         valoresUnicode = new int[cantiPisos];
-        for (int i = 97; i<=( 97+(cantiPisos - 1) );i++){
+        for (int i = 97; i<=97+(cantiPisos-1)  ;i++){
+
             valoresUnicode[contador] = i;
             contador++;
         }
     }
     
     private static void crearEdificio(){
-        Precios.pedirPrecios();
-        Double precio;
-        String tipo;
-        for (int i=0; i<=cantiPisos-1;i++){
-            for (int j=0; j<10;j++){
-                String codigo = String.valueOf((char) valoresUnicode[i]).toUpperCase()+(j+1);
-                if(cantiPisos-1 == (i+1)  || cantiPisos == (i+1)){
-                    if((j+1)% 2 == 0){
-                        precio = Precios.getPrecioDoble()+ (Precios.getPrecioDoble() *0.10);
-                        tipo = "doble";
+        try {
+            Precios.pedirPrecios();
+            Double precio;
+            String tipo;
+
+            System.out.println("\n");
+            for (int i=1; i<=cantiPisos;i++){
+                for (int j=1; j<=10;j++){
+                    String codigo = String.valueOf((char) valoresUnicode[i-1]).toUpperCase()+j;
+
+                    //Validando los precios de las habitaciones de los ultimos dos pisos
+                    if(i == cantiPisos  || i == cantiPisos - 1){
+                        if(j% 2 == 0){
+                            precio = Precios.getPrecioDoble()+ (Precios.getPrecioDoble() *0.10);
+                            tipo = "doble";
+                        }
+                        else{
+                            precio=Precios.getPrecioDoble()+(Precios.getPrecioSencilla() * 0.10);
+                            tipo = "sencilla";
+                        }
                     }
                     else{
-                        precio=Precios.getPrecioDoble()+(Precios.getPrecioSencilla() * 0.10);
-                        tipo = "sencilla";
+                        if(j % 2 == 0){
+                            precio = Precios.getPrecioDoble();
+                            tipo = "doble";
+                        }
+                        else {
+                            precio = Precios.getPrecioSencilla();
+                            tipo = "sencilla";
+                        }
                     }
+                    listaHabitaciones.add(new Habitacion(codigo,precio,tipo,"disponible"));
                 }
-                else{
-                    if((j+1) % 2 == 0){
-                        precio = Precios.getPrecioDoble();
-                        tipo = "doble";
-                    }
-                    else {
-                        precio = Precios.getPrecioSencilla();
-                        tipo = "sencilla";
-                    }
-                }
-                listaHabitaciones.add(new Habitacion(codigo,precio,tipo,"disponible"));
             }
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
         }
     }
 
