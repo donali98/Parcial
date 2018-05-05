@@ -56,7 +56,7 @@ public class Nombre {
             }
 
             return nom == true && ape == true;
-        }
+    }
     public static String[] pedir(){
 
         String nombre, apellidido;
