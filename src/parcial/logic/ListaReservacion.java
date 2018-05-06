@@ -35,10 +35,11 @@ public class ListaReservacion {
     public void addReservacion(){
         Reservacion reservacion;
         Scanner scanner = new Scanner(System.in);
-        this.mostrarHabitaciones(true);
+
         int op = 10;
         while (op!=0){
             try {
+                this.mostrarHabitaciones(true);
                 System.out.println("Elija una habitacion por su codigo");
                 String codigoHabitacion = scanner.next().toUpperCase();
                 Habitacion habitacionAReservar = this.validarCodigo(codigoHabitacion);
@@ -55,33 +56,41 @@ public class ListaReservacion {
                     System.out.println("Ingrese la fecha de check-out:(yyyy-MM-dd) ");
                     fechaFin = parseDate(scanner.next());
 
+                    String [] resultadoValidarFechas = this.validarDuracionReserva(fechaInicio);
+                    if (!resultadoValidarFechas[0].contains("ok")){
+                        op =1;
+                        System.out.println("--------------------------------");
+                        System.out.println(resultadoValidarFechas[1]);
+                        System.out.println("--------------------------------");
+                    }
+                    else{
+                        String paquete = this.sugerirPaquete();
 
+                        if(!paquete.contains("")){
 
-                    String paquete = this.sugerirPaquete();
+                            switch (paquete){
+                                case "Premium":
+                                    reservacion = new Reservacion(nombres[0],nombres[1],dui,habitacionAReservar,ListaPaquetes.getInstance().getPaquetes().get(0),fechaInicio,fechaFin);
+                                    reservaciones.add(reservacion);
+                                    ListaHabitacion.getListaHabitaciones().get(ListaHabitacion.getListaHabitaciones().indexOf(reservacion.getHabitacion())).setEstado("ocupada");
+                                    break;
+                                case "Basico":
+                                    reservacion  = new Reservacion(nombres[0],nombres[1],dui,habitacionAReservar,ListaPaquetes.getInstance().getPaquetes().get(1),fechaInicio,fechaFin);
+                                    reservaciones.add(reservacion);
+                                    ListaHabitacion.getListaHabitaciones().get(ListaHabitacion.getListaHabitaciones().indexOf(reservacion.getHabitacion())).setEstado("ocupada");
+                                    break;
+                            }
 
-                    if(!paquete.contains("")){
-
-                        switch (paquete){
-                            case "Premium":
-                                reservacion = new Reservacion(nombres[0],nombres[1],dui,habitacionAReservar,ListaPaquetes.getInstance().getPaquetes().get(0),fechaInicio,fechaFin);
-                                reservaciones.add(reservacion);
-                                ListaHabitacion.getListaHabitaciones().get(ListaHabitacion.getListaHabitaciones().indexOf(reservacion.getHabitacion())).setEstado("ocupada");
-                                break;
-                            case "Basico":
-                                reservacion  = new Reservacion(nombres[0],nombres[1],dui,habitacionAReservar,ListaPaquetes.getInstance().getPaquetes().get(1),fechaInicio,fechaFin);
-                                reservaciones.add(reservacion);
-                                ListaHabitacion.getListaHabitaciones().get(ListaHabitacion.getListaHabitaciones().indexOf(reservacion.getHabitacion())).setEstado("ocupada");
-                                break;
                         }
 
+                        else{
+                            reservacion = new Reservacion(nombres[0],nombres[1],dui,habitacionAReservar,fechaInicio,fechaFin);
+                            reservaciones.add(reservacion);
+                            ListaHabitacion.getListaHabitaciones().get(ListaHabitacion.getListaHabitaciones().indexOf(reservacion.getHabitacion())).setEstado("ocupada");
+                        }
+                        System.out.println("Reservacion realizada con exito");
                     }
 
-                    else{
-                        reservacion = new Reservacion(nombres[0],nombres[1],dui,habitacionAReservar,fechaInicio,fechaFin);
-                        reservaciones.add(reservacion);
-                        ListaHabitacion.getListaHabitaciones().get(ListaHabitacion.getListaHabitaciones().indexOf(reservacion.getHabitacion())).setEstado("ocupada");
-                    }
-                    System.out.println("Reservacion realizada con exito");
                 }
                 else{
                     System.out.println("Codigo de habitacion no valido");
@@ -151,9 +160,16 @@ public class ListaReservacion {
        else ListaHabitacion.getListaHabitaciones().get(ListaHabitacion.getListaHabitaciones().indexOf(habitacion)).setEstado("ocupada");
 
     }
-    private boolean validarDuracionReserva(LocalDate fecha){
+    private String[] validarDuracionReserva(LocalDate fecha){
+        String[] output = new String[2];
+
         LocalDate fechaLimite = fecha.plusDays(7);
-        return fecha.isAfter(fechaLimite);
+        if(fechaLimite.isAfter(fecha)){
+            output[0] = "error";
+            output[1] = "No se puede realizar una reservacion mayor de 7 dias";
+        }
+        else output[0] = "ok";
+        return output;
     }
     private LocalDate parseDate(String fecha){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
