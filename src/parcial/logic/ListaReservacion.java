@@ -73,43 +73,36 @@ public class ListaReservacion {
                                 fechas = this.pedirFechas();
                                 fechaInicio = fechas[0];
                                 fechaFin = fechas[1];
-                                String [] resultadoValidarFechas = this.validarDuracionReserva(fechaInicio,fechaFin);
-                                if (!resultadoValidarFechas[0].equals("ok")){
-                                    op =1;
-                                    System.out.println("-----------------------------------------------------------");
-                                    System.out.println(resultadoValidarFechas[1]);
-                                    System.out.println("-----------------------------------------------------------");
+                                int duracion = Integer.valueOf(String.valueOf(this.getDuration(fechaInicio,fechaFin)));
+                                totalAPagar = this.calcularTotal(habitacionAReservar,duracion,"");
+                                String paquete = this.sugerirPaquete();
+
+                                if(!paquete.equals("")){
+
+                                    switch (paquete){
+                                        case "Premium":
+                                            totalAPagar = this.calcularTotal(habitacionAReservar,duracion,"Premium");
+                                            reservacion = new Reservacion(nombres[0],nombres[1],dui,habitacionAReservar,ListaPaquetes.getInstance().getPaquetes().get(0),fechaInicio,fechaFin,totalAPagar);
+                                            reservaciones.add(reservacion);
+                                            this.cambiarEstadoHabitacion(false,habitacionAReservar);
+                                            break;
+                                        case "Basico":
+                                            totalAPagar = this.calcularTotal(habitacionAReservar,duracion,"Basico");
+                                            reservacion  = new Reservacion(nombres[0],nombres[1],dui,habitacionAReservar,ListaPaquetes.getInstance().getPaquetes().get(1),fechaInicio,fechaFin,totalAPagar);
+                                            reservaciones.add(reservacion);
+                                            this.cambiarEstadoHabitacion(false,habitacionAReservar);
+                                            break;
+                                    }
+
                                 }
+
                                 else{
-                                    totalAPagar = this.calcularTotal(habitacionAReservar,Integer.parseInt( resultadoValidarFechas[1]),"");
-                                    String paquete = this.sugerirPaquete();
-
-                                    if(!paquete.equals("")){
-
-                                        switch (paquete){
-                                            case "Premium":
-                                                totalAPagar = this.calcularTotal(habitacionAReservar,Integer.parseInt(resultadoValidarFechas[1]),"Premium");
-                                                reservacion = new Reservacion(nombres[0],nombres[1],dui,habitacionAReservar,ListaPaquetes.getInstance().getPaquetes().get(0),fechaInicio,fechaFin,totalAPagar);
-                                                reservaciones.add(reservacion);
-                                                this.cambiarEstadoHabitacion(false,habitacionAReservar);
-                                                break;
-                                            case "Basico":
-                                                totalAPagar = this.calcularTotal(habitacionAReservar,Integer.parseInt(resultadoValidarFechas[1]),"Basico");
-                                                reservacion  = new Reservacion(nombres[0],nombres[1],dui,habitacionAReservar,ListaPaquetes.getInstance().getPaquetes().get(1),fechaInicio,fechaFin,totalAPagar);
-                                                reservaciones.add(reservacion);
-                                                this.cambiarEstadoHabitacion(false,habitacionAReservar);
-                                                break;
-                                        }
-
-                                    }
-
-                                    else{
-                                        reservacion = new Reservacion(nombres[0],nombres[1],dui,habitacionAReservar,fechaInicio,fechaFin,totalAPagar);
-                                        reservaciones.add(reservacion);
-                                        this.cambiarEstadoHabitacion(false,habitacionAReservar);
-                                    }
-                                    System.out.println("Reservacion realizada con exito");
+                                    reservacion = new Reservacion(nombres[0],nombres[1],dui,habitacionAReservar,fechaInicio,fechaFin,totalAPagar);
+                                    reservaciones.add(reservacion);
+                                    this.cambiarEstadoHabitacion(false,habitacionAReservar);
                                 }
+                                System.out.println("Reservacion realizada con exito");
+
                             }
 
                         }
@@ -265,11 +258,16 @@ public class ListaReservacion {
        else ListaHabitacion.getListaHabitaciones().get(ListaHabitacion.getListaHabitaciones().indexOf(habitacion)).setEstado("ocupada");
 
     }
+    private long getDuration(LocalDate fechaInicio, LocalDate fechaFin){
+        Duration duration = Duration.between(fechaFin.atStartOfDay(),fechaInicio.atStartOfDay());
+        return Math.abs(duration.toDays());
+    }
     private String[] validarDuracionReserva(LocalDate fechaInicio, LocalDate fechaLimite){
         String[] output = new String[2];
-        Duration duration = Duration.between(fechaLimite.atStartOfDay(),fechaInicio.atStartOfDay());
+
         output[0] = "ok";
-        output[1] =  String.valueOf( Math.abs(duration.toDays()));
+
+        output[1] =  String.valueOf( this.getDuration(fechaInicio,fechaLimite));
 
         try{
             if(fechaInicio.isBefore(LocalDate.now())){
@@ -411,13 +409,15 @@ public class ListaReservacion {
     }
     private LocalDate[] pedirFechas(){
         Scanner scanner = new Scanner(System.in);
+        String []resultadoValidacion;
         LocalDate[] output = new LocalDate[2];
         int op = 1;
         while (op!=0){
             try{
                 System.out.println("Ingrese la fecha de check-in(yyyy-MM-dd): ");
                 output[0] = parseDate(scanner.next());
-                op =0;
+                if(output[0].isBefore(LocalDate.now())) System.out.println("La fecha no puede ser antes de ahora");
+                else op =0;
             }
             catch (Exception e){
                 System.out.println("Valores no validos");
@@ -428,7 +428,13 @@ public class ListaReservacion {
             try{
                 System.out.println("Ingrese la fecha de check-out(yyyy-MM-dd): ");
                 output[1] = parseDate(scanner.next());
-                op =0;
+                resultadoValidacion=this.validarDuracionReserva(output[0],output[1]);
+                if (!resultadoValidacion[0].equals("ok")){
+                    System.out.println("-----------------------------------------------------------");
+                    System.out.println(resultadoValidacion[1]);
+                    System.out.println("-----------------------------------------------------------");
+                }
+                else op =0;
             }
             catch (Exception e){
                 System.out.println("Valores no validos");
