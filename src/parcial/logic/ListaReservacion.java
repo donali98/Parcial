@@ -8,6 +8,7 @@ import  parcial.base.Habitacion;
 import parcial.base.Reservacion;
 import parcial.utils.Dui;
 import parcial.utils.Nombre;
+import parcial.utils.Precios;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -37,7 +38,7 @@ public class ListaReservacion {
     public void addReservacion(){
         Reservacion reservacion;
         Scanner scanner = new Scanner(System.in);
-
+        Double totalAPagar;
         int op = 10;
 
         while (op!=0){
@@ -59,6 +60,7 @@ public class ListaReservacion {
                        op = 1;
                     }
                     else{
+                        totalAPagar = habitacionAReservar.getPrecio();
                         op = 0;
                         String nombres[];
                         String dui;
@@ -72,7 +74,7 @@ public class ListaReservacion {
                         fechaFin = parseDate(scanner.next());
 
                         String [] resultadoValidarFechas = this.validarDuracionReserva(fechaInicio,fechaFin);
-                        if (!resultadoValidarFechas[0].contains("ok")){
+                        if (!resultadoValidarFechas[0].equals("ok")){
                             op =1;
                             System.out.println("-----------------------------------------------------------");
                             System.out.println(resultadoValidarFechas[1]);
@@ -81,16 +83,18 @@ public class ListaReservacion {
                         else{
                             String paquete = this.sugerirPaquete();
 
-                            if(!paquete.contains("")){
+                            if(!paquete.equals("")){
 
                                 switch (paquete){
                                     case "Premium":
-                                        reservacion = new Reservacion(nombres[0],nombres[1],dui,habitacionAReservar,ListaPaquetes.getInstance().getPaquetes().get(0),fechaInicio,fechaFin);
+                                        totalAPagar = this.calcularTotal(habitacionAReservar,Integer.parseInt(resultadoValidarFechas[1]),"Premium");
+                                        reservacion = new Reservacion(nombres[0],nombres[1],dui,habitacionAReservar,ListaPaquetes.getInstance().getPaquetes().get(0),fechaInicio,fechaFin,totalAPagar);
                                         reservaciones.add(reservacion);
                                         this.cambiarEstadoHabitacion(false,habitacionAReservar);
                                         break;
                                     case "Basico":
-                                        reservacion  = new Reservacion(nombres[0],nombres[1],dui,habitacionAReservar,ListaPaquetes.getInstance().getPaquetes().get(1),fechaInicio,fechaFin);
+                                        totalAPagar = this.calcularTotal(habitacionAReservar,Integer.parseInt(resultadoValidarFechas[1]),"Basico");
+                                        reservacion  = new Reservacion(nombres[0],nombres[1],dui,habitacionAReservar,ListaPaquetes.getInstance().getPaquetes().get(1),fechaInicio,fechaFin,totalAPagar);
                                         reservaciones.add(reservacion);
                                         this.cambiarEstadoHabitacion(false,habitacionAReservar);
                                         break;
@@ -99,7 +103,7 @@ public class ListaReservacion {
                             }
 
                             else{
-                                reservacion = new Reservacion(nombres[0],nombres[1],dui,habitacionAReservar,fechaInicio,fechaFin);
+                                reservacion = new Reservacion(nombres[0],nombres[1],dui,habitacionAReservar,fechaInicio,fechaFin,totalAPagar);
                                 reservaciones.add(reservacion);
                                 this.cambiarEstadoHabitacion(false,habitacionAReservar);
                             }
@@ -166,6 +170,28 @@ public class ListaReservacion {
 
     }
 
+    private Double calcularTotal(Habitacion habitacion,int dias, String tipoPaquete){
+        Double total = habitacion.getPrecio();
+        ;
+        switch (tipoPaquete){
+            case "Premium":
+                for(int i=0; i<dias;i++){
+                    total+=150.0;
+                }
+            return total;
+
+            case "Basico":
+                for(int i=0; i<dias;i++){
+                    total+=10.0;
+                }
+            return total;
+
+            default:
+                return total;
+
+        }
+    }
+
     private Reservacion buscarReservacion(Habitacion habitacion){
         for (Reservacion reservacion:reservaciones){
             if(reservacion.getHabitacion().equals(habitacion)){
@@ -184,7 +210,9 @@ public class ListaReservacion {
     }
     private String[] validarDuracionReserva(LocalDate fechaInicio, LocalDate fechaLimite){
         String[] output = new String[2];
+        Duration duration = Duration.between(fechaLimite.atStartOfDay(),fechaInicio.atStartOfDay());
         output[0] = "ok";
+        output[1] =  String.valueOf( Math.abs(duration.toDays()));
 
         try{
             if(fechaInicio.isBefore(LocalDate.now())){
@@ -192,8 +220,7 @@ public class ListaReservacion {
              output[1] = "El dia que desea reservar la habitacion ya paso";
              return output;
             }
-            Duration duration = Duration.between(fechaLimite.atStartOfDay(),fechaInicio.atStartOfDay());
-            if(Math.abs(duration.toDays())>7){
+            if(Long.valueOf(output[1])>7){
                 output[0] = "error";
                 output[1] = "No se puede realizar una reservacion con duracion mayor a 7 dias";
                 return output;
@@ -280,7 +307,7 @@ public class ListaReservacion {
         ArrayList<Habitacion> habitacionesDisponibles = new ArrayList<>();
         if(sentido){
             for (Habitacion habitacion: ListaHabitacion.getListaHabitaciones()){
-                if(!habitacion.getEstado().contains("ocupada") && !habitacion.getEstado().contains("deshabilitada")){
+                if(!habitacion.getEstado().equals("ocupada") && !habitacion.getEstado().equals("deshabilitada")){
                     habitacionesDisponibles.add(habitacion);
                 }
             }
@@ -288,7 +315,7 @@ public class ListaReservacion {
         else
         {
             for (Habitacion habitacion: ListaHabitacion.getListaHabitaciones()){
-                if(habitacion.getEstado().contains("ocupada") && !habitacion.getEstado().contains("deshabilitada")){
+                if(habitacion.getEstado().equals("ocupada") && !habitacion.getEstado().equals("deshabilitada")){
                     habitacionesDisponibles.add(habitacion);
                 }
             }
@@ -301,10 +328,11 @@ public class ListaReservacion {
         if(estado){
             System.out.println("Habitaciones disponibles: ");
             System.out.println("------------------------------------------------------------------------");
+            System.out.println("    Codigo    |     Precio      ");
             for (Habitacion habitacion: this.devolverHabitacionesConEstado(true)){
                 existe =  true;
                 System.out.println(habitacion.getCodigo()+"  |   "+habitacion.getPrecio());
-                if(habitacion.getCodigo().substring(1,habitacion.getCodigo().length()).contains("10")){
+                if(habitacion.getCodigo().substring(1,habitacion.getCodigo().length()).equals("10")){
                 System.out.println("---------------------------------------------------------------------");
                 }
             }
@@ -313,12 +341,16 @@ public class ListaReservacion {
             System.out.println("Habitaciones reservadas: ");
             System.out.println("------------------------------------------------------------------------");
             for (Habitacion habitacion: this.devolverHabitacionesConEstado(false)){
+                Reservacion reservacion = listaReservacion.buscarReservacion(habitacion);
                 existe = true;
-                System.out.println(habitacion.getCodigo()+"  |   "+habitacion.getPrecio());
-                if(habitacion.getCodigo().substring(1,habitacion.getCodigo().length()).contains("10")){
-                    System.out.println("---------------------------------------------------------------------");
-                }
+                System.out.println("Codigo: "+habitacion.getCodigo());
+                System.out.println("Cliente: "+reservacion.getHuesped().getNombres().getApellidos()+", "+reservacion.getHuesped().getNombres().getNombres());
+                System.out.println("Fecha Inicio : "+reservacion.getFechaInicio());
+                System.out.println("Fecha Fin : "+reservacion.getFechaFin());
+                System.out.println("Monto Cancelado : "+"$"+reservacion.getTotalPagar());
             }
+            System.out.println("------------------------------------------------------------------------");
+
         }
         return  existe;
     }
