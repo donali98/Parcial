@@ -111,20 +111,17 @@ private static Menu menu;
         Scanner scanner = new Scanner(System.in);
         while (selected!=0){
             try {
-                this.crearMenu(new String[]{"1-Agregar reservacion","2-Cancelar reservacion","3-Modificar reservacion"});
+                this.crearMenu(new String[]{"1-Agregar reservacion","2-Cancelar reservacion","3-Modificar reservacion","0-Volver"});
                 selected = scanner.nextInt();
                 switch (selected){
                     case 1:
                         ListaReservacion.getInstance().performAction("insert");
-                        selected = 0;
                     break;
                     case 2:
                         ListaReservacion.getInstance().performAction("delete");
-                        selected = 0;
                     break;
                     case 3:
                         ListaReservacion.getInstance().performAction("update");
-                        selected = 0;
                     break;
                 }
 
@@ -254,6 +251,26 @@ private static Menu menu;
         }
         return  op;
 
+    }
+    public boolean mostrarMenuConfirmacion(String pregunta){
+        Scanner scanner = new Scanner(System.in);
+        int op = 10;
+        while (op!=0){
+            System.out.println(pregunta+" (s/n)?");
+            String resp = scanner.next();
+            switch (resp){
+                case "s":
+                    op = 0;
+                    return true;
+                case "n":
+                    op = 0;
+                    return false;
+                default:
+                    System.out.println("Opcion no valida");
+                    break;
+            }
+        }
+        return true;
     }
     
     

@@ -5,6 +5,7 @@
  */
 package parcial.logic;
 import  parcial.base.Habitacion;
+import parcial.base.Huesped;
 import parcial.base.Reservacion;
 import parcial.utils.Dui;
 import parcial.utils.Menu;
@@ -143,7 +144,7 @@ public class ListaReservacion {
                         else {
                             op = 0;
                             //Si quiere eliminar la reservacion
-                            if(this.mostrarMenuConfirmacion("Esta seguro que desea eliminar la reservacion asociada con la habitacion "+codigo)){
+                            if(Menu.getInstance().mostrarMenuConfirmacion("Esta seguro que desea eliminar la reservacion asociada con la habitacion "+codigo)){
                                 //busca la reservacion
                                 Reservacion reservacionAEliminar = buscarReservacion(habitacion);
                                 //si la encuentra
@@ -179,17 +180,42 @@ public class ListaReservacion {
                             System.out.println("La habitacion que ha ingresado no esta asociada a una reservacion");
                         }
                         else {
-                            op = 0;
                             int opModificar = 1;
                             //Si quiere eliminar la reservacion
                             //busca la reservacion
                             Reservacion reservacionAModificar = buscarReservacion(habitacion);
                             //si la encuentra
                             if(reservacionAModificar!=null){
-                                opModificar = Menu.getInstance().subMenu(new String[]{"1-Nombre Huesped"});
+                                String [] opcionesMenuModificar =new String[]{"1-Nombres Huesped","2-DUI Huesped","3-Habitacion","4-Fechas","0-Regresar"};
+                                opModificar = Menu.getInstance().subMenu(opcionesMenuModificar);
+                                Huesped huesped = this.buscarReservacion(habitacion).getHuesped();
+                                Menu menu = Menu.getInstance();
                                 switch (opModificar){
                                     case 1:
-                                        System.out.println("si");
+                                        String[] nombres = Nombre.pedir();
+
+                                        if(menu.mostrarMenuConfirmacion("Esta seguro que desea modificar los nombres del huesped?")){
+                                            huesped.getNombres().setNombres(nombres[0]);
+                                            huesped.getNombres().setApellidos(nombres[1]);
+                                            System.out.println("Nombres del huesped modificados con exito");
+                                            op = 0;
+                                        }
+                                        break;
+                                    case 2:
+                                        String dui = Dui.pedir();
+                                        if(menu.mostrarMenuConfirmacion("Esta seguro que desea modificar los nombres del huesped?")) {
+                                            huesped.setDui(Dui.getDuiFromString(dui));
+                                            System.out.println("Dui del huesped modificado con exito");
+                                        }
+                                        op = 0;
+                                        break;
+                                    case 3:
+
+                                        if(menu.mostrarMenuConfirmacion("Esta seguro que desea reasignar reservacion?")){
+                                            reservaciones.remove(habitacion);
+                                            this.performAction("insert");
+                                        }
+                                        op = 0;
                                         break;
                                 }
                             }
@@ -272,26 +298,6 @@ public class ListaReservacion {
         return  parsedDate;
     }
 
-    private boolean mostrarMenuConfirmacion(String pregunta){
-        Scanner scanner = new Scanner(System.in);
-        int op = 10;
-        while (op!=0){
-            System.out.println(pregunta+" (s/n)?");
-            String resp = scanner.next();
-            switch (resp){
-                case "s":
-                    op = 0;
-                    return true;
-                case "n":
-                    op = 0;
-                    return false;
-                default:
-                    System.out.println("Opcion no valida");
-                break;
-            }
-        }
-        return true;
-    }
 
     private String sugerirPaquete(){
         Scanner scanner = new Scanner(System.in);

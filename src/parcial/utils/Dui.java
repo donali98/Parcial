@@ -47,8 +47,18 @@ public class Dui {
             return result;
         }
         catch (Exception e){
-            System.out.println(e.getCause());
+            System.out.println(e.getMessage());
             return new int[]{};
+        }
+    }
+    public static Dui getDuiFromString(String stringDui){
+        try {
+            int [] digitos = parseDui(stringDui);
+            return  new Dui(digitos);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
         }
     }
     public String getDigitos() {
