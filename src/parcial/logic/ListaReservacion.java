@@ -66,14 +66,13 @@ public class ListaReservacion {
                                 String nombres[];
                                 String dui;
                                 LocalDate fechaInicio, fechaFin;
+                                LocalDate[]fechas;
                                 System.out.println("Ingrese los datos del huesped: ");
                                 nombres = Nombre.pedir();
                                 dui = Dui.pedir();
-                                System.out.println("Ingrese la fecha de check-in(yyyy-MM-dd): ");
-                                fechaInicio = parseDate(scanner.next());
-                                System.out.println("Ingrese la fecha de check-out:(yyyy-MM-dd) ");
-                                fechaFin = parseDate(scanner.next());
-
+                                fechas = this.pedirFechas();
+                                fechaInicio = fechas[0];
+                                fechaFin = fechas[1];
                                 String [] resultadoValidarFechas = this.validarDuracionReserva(fechaInicio,fechaFin);
                                 if (!resultadoValidarFechas[0].equals("ok")){
                                     op =1;
@@ -409,6 +408,33 @@ public class ListaReservacion {
         }
         return null;
 
+    }
+    private LocalDate[] pedirFechas(){
+        Scanner scanner = new Scanner(System.in);
+        LocalDate[] output = new LocalDate[2];
+        int op = 1;
+        while (op!=0){
+            try{
+                System.out.println("Ingrese la fecha de check-in(yyyy-MM-dd): ");
+                output[0] = parseDate(scanner.next());
+                op =0;
+            }
+            catch (Exception e){
+                System.out.println("Valores no validos");
+            }
+        }
+        op = 1;
+        while (op!=0){
+            try{
+                System.out.println("Ingrese la fecha de check-out(yyyy-MM-dd): ");
+                output[1] = parseDate(scanner.next());
+                op =0;
+            }
+            catch (Exception e){
+                System.out.println("Valores no validos");
+            }
+        }
+        return output;
     }
 
 }
