@@ -326,21 +326,25 @@ public class ListaReservacion {
     private boolean mostrarHabitaciones(boolean estado){
         boolean existe = false;
         if(estado){
+            System.out.println("------------------------------------------------------------------------");
             System.out.println("Habitaciones disponibles: ");
             System.out.println("------------------------------------------------------------------------");
-            System.out.println("    Codigo    |     Precio      ");
+
             for (Habitacion habitacion: this.devolverHabitacionesConEstado(true)){
+                System.out.println("-------------------------------------------------------");
                 existe =  true;
-                System.out.println(habitacion.getCodigo()+"  |   "+habitacion.getPrecio());
-                if(habitacion.getCodigo().substring(1,habitacion.getCodigo().length()).equals("10")){
-                System.out.println("---------------------------------------------------------------------");
-                }
+                System.out.println("Codigo: "+habitacion.getCodigo());
+                System.out.println("Tipo: "+habitacion.getTipo());
+                System.out.println("Precio: "+habitacion.getPrecio());
+                System.out.println("-------------------------------------------------------");
             }
         }
         else   {
+            System.out.println("------------------------------------------------------------------------");
             System.out.println("Habitaciones reservadas: ");
             System.out.println("------------------------------------------------------------------------");
             for (Habitacion habitacion: this.devolverHabitacionesConEstado(false)){
+                System.out.println("------------------------------------------------------------------------");
                 Reservacion reservacion = listaReservacion.buscarReservacion(habitacion);
                 existe = true;
                 System.out.println("Codigo: "+habitacion.getCodigo());
@@ -348,8 +352,9 @@ public class ListaReservacion {
                 System.out.println("Fecha Inicio : "+reservacion.getFechaInicio());
                 System.out.println("Fecha Fin : "+reservacion.getFechaFin());
                 System.out.println("Monto Cancelado : "+"$"+reservacion.getTotalPagar());
+                System.out.println("------------------------------------------------------------------------");
             }
-            System.out.println("------------------------------------------------------------------------");
+
 
         }
         return  existe;
