@@ -37,7 +37,7 @@ private static Menu menu;
     }
     //Metodo del menu principal
     public void menuPrincipal(){
-        int selected = 10;
+        /*int selected = 10;
         Scanner reader = new Scanner(System.in);
         while (selected!=0){
 
@@ -67,7 +67,8 @@ private static Menu menu;
                 System.out.println("Valor no valido");
             }
 
-        }
+        }*/
+        this.menuHotel();
     }
     public void menuHotel(){
         //Generando al hotel
