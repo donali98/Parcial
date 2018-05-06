@@ -9,6 +9,7 @@ import parcial.base.Reservacion;
 import parcial.utils.Dui;
 import parcial.utils.Nombre;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -56,7 +57,7 @@ public class ListaReservacion {
                     System.out.println("Ingrese la fecha de check-out:(yyyy-MM-dd) ");
                     fechaFin = parseDate(scanner.next());
 
-                    String [] resultadoValidarFechas = this.validarDuracionReserva(fechaInicio);
+                    String [] resultadoValidarFechas = this.validarDuracionReserva(fechaInicio,fechaFin);
                     if (!resultadoValidarFechas[0].contains("ok")){
                         op =1;
                         System.out.println("--------------------------------");
@@ -160,16 +161,31 @@ public class ListaReservacion {
        else ListaHabitacion.getListaHabitaciones().get(ListaHabitacion.getListaHabitaciones().indexOf(habitacion)).setEstado("ocupada");
 
     }
-    private String[] validarDuracionReserva(LocalDate fecha){
+    private String[] validarDuracionReserva(LocalDate fechaInicio, LocalDate fechaLimite){
         String[] output = new String[2];
+        /*String[] output = new String[2];
 
-        LocalDate fechaLimite = fecha.plusDays(7);
+        LocalDate fechaLimite = fechaInicio.plusDays(7);
         if(fechaLimite.isAfter(fecha)){
             output[0] = "error";
             output[1] = "No se puede realizar una reservacion mayor de 7 dias";
         }
         else output[0] = "ok";
+        return output;*/
+
+        try{
+            Duration duration = Duration.between(fechaLimite.atStartOfDay(),fechaInicio.atStartOfDay());
+            if(Math.abs(duration.toDays())>7){
+                output[0] = "error";
+                output[1] = "No se puede realizar una reservacion con duracion mayor a 7 dias";
+            }
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
         return output;
+
     }
     private LocalDate parseDate(String fecha){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
