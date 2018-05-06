@@ -1,0 +1,17 @@
+Autor de este txt: donali98 (Carnet: 00084417)
+
+Aclaraciones:
+    
+    1- En el proyecto aparece que hemos sido 5 colaboradores, apareciendo de mas un usuario con el user donali900, esa es
+    el motivo es porque yo ya tenia mi cuenta personal de GitHub asociada a NetBeans desde antes de crear la cuenta con el correo
+    de la UCA y mando commits bajo ese usuario, estoy completamente a disposicion de demostrar en caso de que quiseran comprobar esto
+    
+    2- Tanto yo como Ruben(usuario: Alex7498-SV) Tenemos una cantidad de lineas de codigo agregadas bastante grande, la razon
+    es, en mi caso, porque yo cree el proyecto y Git al momento de dar el primer commit me lo tomo como lineas de codigo añadidas
+    (https://github.com/donali98/Parcial/commit/0f95617660312bb74c2cf14110417050263dc16e) y en el de Ruben por que en un punto nos
+    encontramos con un conflicto de versiones y, sin entender muy bien porque o como, al solucionarlo se creo una carpeta dentro
+    de la raiz del proyecto que contenia una copia del proyecto como tal(https://github.com/donali98/Parcial/commit/1533e60664783f13534754a0b5f24318c9f03a22)
+    el cual fue posteriormente eliminado (https://github.com/donali98/Parcial/commit/dbc6be74ed3fc31cbc1aac3eb079a23aa1ec7285)
+    ambos commits representan un 'aporte' de 1614 lineas de codigo, por favor tomar en cuenta al momento de calcular el porcentaje
+    de participacion, porque hemos preguntado con otro grupo si presentaban este comportamiento al crear el proyecto y no era el caso
+    asi que se ha optado por aclarar eso aca.
