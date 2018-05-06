@@ -287,8 +287,10 @@ public class ListaReservacion {
     }
 
     private Habitacion validarCodigo(String codigo){
-        for(Habitacion habitacion: ListaHabitacion.getListaHabitaciones()){
-            if(habitacion.getCodigo().contains(codigo)){
+        for(Habitacion habitacion: ListaReservacion.getInstance().devolverHabitacionesConEstado(true)){
+            String piso = habitacion.getCodigo().substring(0,1);
+            String cuarto = habitacion.getCodigo().substring(0,2);
+            if(codigo.substring(0,1).contains(piso) && codigo.substring(0,2).contains(cuarto)){
                return habitacion;
 
             }
