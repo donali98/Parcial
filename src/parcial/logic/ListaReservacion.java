@@ -60,7 +60,6 @@ public class ListaReservacion {
                        op = 1;
                     }
                     else{
-                        totalAPagar = habitacionAReservar.getPrecio();
                         op = 0;
                         String nombres[];
                         String dui;
@@ -81,6 +80,7 @@ public class ListaReservacion {
                             System.out.println("-----------------------------------------------------------");
                         }
                         else{
+                            totalAPagar = this.calcularTotal(habitacionAReservar,Integer.parseInt( resultadoValidarFechas[1]),"");
                             String paquete = this.sugerirPaquete();
 
                             if(!paquete.equals("")){
@@ -171,8 +171,8 @@ public class ListaReservacion {
     }
 
     private Double calcularTotal(Habitacion habitacion,int dias, String tipoPaquete){
-        Double total = habitacion.getPrecio();
-        ;
+        Double total = habitacion.getPrecio()*dias;
+
         switch (tipoPaquete){
             case "Premium":
                 for(int i=0; i<dias;i++){
