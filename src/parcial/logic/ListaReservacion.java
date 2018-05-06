@@ -137,18 +137,24 @@ public class ListaReservacion {
             //Valida existencia de la habitacion
             Habitacion habitacion =  this.validarCodigo(codigo);
             if(habitacion!=null){
-                op = 0;
-                //Si quiere eliminar la reservacion
-                if(this.mostrarMenuConfirmacion("Esta seguro que desea eliminar la reservacion asociada con la habitacion "+codigo)){
-                    //busca la reservacion
-                    Reservacion reservacionAEliminar = buscarReservacion(habitacion);
-                    //si la encuentra
-                    if(reservacionAEliminar!=null){
-                        reservaciones.remove(reservacionAEliminar);
-                        System.out.println("Reservacion eliminada con exito");
-                        this.cambiarEstadoHabitacion(true,habitacion);
+                if(!habitacion.getEstado().equals("ocupada")){
+                    op = 1;
+                    System.out.println("La habitacion que ha ingresado no esta asociada a una reservacion");
+                }
+                else {
+                    op = 0;
+                    //Si quiere eliminar la reservacion
+                    if(this.mostrarMenuConfirmacion("Esta seguro que desea eliminar la reservacion asociada con la habitacion "+codigo)){
+                        //busca la reservacion
+                        Reservacion reservacionAEliminar = buscarReservacion(habitacion);
+                        //si la encuentra
+                        if(reservacionAEliminar!=null){
+                            reservaciones.remove(reservacionAEliminar);
+                            System.out.println("Reservacion eliminada con exito");
+                            this.cambiarEstadoHabitacion(true,habitacion);
+                        }
+                        else System.out.println("Reservacion con la habitacion especificada no ha sido encotrada");
                     }
-                    else System.out.println("Reservacion con la habitacion especificada no ha sido encotrada");
                 }
             }
             else{
@@ -181,13 +187,20 @@ public class ListaReservacion {
         output[0] = "ok";
 
         try{
+            if(fechaInicio.isBefore(LocalDate.now())){
+             output[0] = "error";
+             output[1] = "El dia que desea reservar la habitacion ya paso";
+             return output;
+            }
             Duration duration = Duration.between(fechaLimite.atStartOfDay(),fechaInicio.atStartOfDay());
             if(Math.abs(duration.toDays())>7){
                 output[0] = "error";
                 output[1] = "No se puede realizar una reservacion con duracion mayor a 7 dias";
+                return output;
             }
         }
         catch (Exception e){
+            output[0] = "error";
             System.out.println(e.getMessage());
         }
 
