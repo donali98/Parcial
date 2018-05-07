@@ -27,7 +27,7 @@ public class Paquete {
     public Paquete(String nombre, int cantiServicios) {
         this.nombre = nombre;
         for (int i=0;i<cantiServicios;i++){
-            servicios.add( Servicio.pedir(i));
+            servicios.add( Servicio.pedir(nombre,i));
         }
 
     }
@@ -106,6 +106,35 @@ public class Paquete {
 
                 }
                 break;
+            }
+        }
+        public static int[]  pedir(){
+            int [] cantidad = new int[2];
+            Scanner scanner = new Scanner(System.in);
+            int op = 1;
+            while (op!=0){
+                try {
+                    System.out.println("Ingrese la cantidad de servicios para el paquete Premium");
+                    cantidad[0] = scanner.nextInt();
+                    op=0;
+                }
+                catch (Exception e){
+                    scanner.next();
+                    System.out.println("Valor no valido");
+                }
+            }
+            op = 1;
+            while (op!=0){
+                try {
+                    System.out.println("Ingrese la cantidad de servicios para el paquete Basico");
+                    cantidad[1] = scanner.nextInt();
+                    op=0;
+                }
+                catch (Exception e){
+                    scanner.next();
+                    System.out.println("Valor no valido");
+                }
+            }
+            return cantidad;
         }
     }
-}

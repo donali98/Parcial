@@ -33,10 +33,10 @@ public class Servicio {
         this.descripcion = descrp ;
     }
     
-    public static Servicio pedir(int i){
+    public static Servicio pedir(String nombre,int i){
         while (true){
             Scanner scanner = new Scanner(System.in);
-            System.out.println("Ingrese la descripcion del servicio "+(i+1)+": ");
+            System.out.println("Ingrese la descripcion del servicio "+(i+1)+" para el paquete "+nombre+": ");
             String des = scanner.nextLine();
             if(des.length()< 5){
                 System.out.println("Descripcion demasiado corta");

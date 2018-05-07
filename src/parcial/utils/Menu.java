@@ -139,12 +139,9 @@ private static Menu menu;
         if(ListaPaquetes.getInstance().getPaquetes().size() == 0) {
 
             //Creando los 3 paquete
-            System.out.println("Ingrese la cantidad de servicios para el paquete Premium: ");
-            int canti = scanner.nextInt();
-            ListaPaquetes.getInstance().addPaquete("Premium",canti);
-            System.out.println("Ingrese la cantidad de servicios para el paquete Basico: ");
-            canti = scanner.nextInt();
-            ListaPaquetes.getInstance().addPaquete("Basico",canti);
+            int canti[] = Paquete.pedir();
+            ListaPaquetes.getInstance().addPaquete("Premium",canti[0]);
+            ListaPaquetes.getInstance().addPaquete("Basico",canti[1]);
         }
         if(origen!=0){
             while (true){

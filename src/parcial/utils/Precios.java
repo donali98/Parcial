@@ -46,8 +46,11 @@ public class Precios {
                 System.out.println("Ingrese el precio de la habitacion doble: ");
                 precioDoble = scanner.nextDouble();
                 if(precioSencilla>=precioDoble){
-                    System.out.println("Atencion, el precio de la habitacion sencilla es igual o superior a la doble, desea continuar?(s/n)");
-                    if(scanner.next().contains("s")) break;
+
+                    if(Menu.getInstance().mostrarMenuConfirmacion("Atencion, el precio de la habitacion sencilla es igual o superior a la doble, desea continuar?")){
+                        break;
+                    }
+
                 }
                 else break;
 
