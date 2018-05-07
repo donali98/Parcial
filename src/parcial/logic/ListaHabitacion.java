@@ -17,7 +17,7 @@ public class ListaHabitacion {
     public static ArrayList<Habitacion> getListaHabitaciones(){
         return listaHabitaciones;
     }
-    
+    //Cambiar
     private static void pedirCantiPisos(){
         Scanner scanner = new Scanner(System.in);
         while (true){
@@ -48,7 +48,7 @@ public class ListaHabitacion {
     
     private static void crearEdificio(){
         try {
-            Precios.pedirPrecios();
+            Precios.pedirPreciosHabitacion();
             Double precio;
             String tipo;
 

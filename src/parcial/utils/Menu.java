@@ -6,6 +6,8 @@
 package parcial.utils;
 
 import java.util.Scanner;
+import java.util.zip.DeflaterOutputStream;
+
 import parcial.base.Paquete;
 import parcial.logic.ListaHabitacion;
 import parcial.logic.ListaPaquetes;
@@ -139,45 +141,31 @@ private static Menu menu;
         if(ListaPaquetes.getInstance().getPaquetes().size() == 0) {
 
             //Creando los 3 paquete
-            int canti[] = Paquete.pedir();
-            ListaPaquetes.getInstance().addPaquete("Premium",canti[0]);
-            ListaPaquetes.getInstance().addPaquete("Basico",canti[1]);
-            ListaPaquetes.getInstance().addPaquete("Ninguno",0);
+            int canti[] = ListaPaquetes.pedirServicios();
+            Double[] preciosPaquetes = Precios.pedirPrecioPaquetes();
+            ListaPaquetes.getInstance().addPaquete("Premium",canti[0], preciosPaquetes[0]);
+            ListaPaquetes.getInstance().addPaquete("Basico",canti[1],preciosPaquetes[1]);
+            ListaPaquetes.getInstance().addPaquete("Ninguno",0,0.0);
 
         }
         if(origen!=0){
-            while (true){
-                try{
-                    int packSelected = 10;
-                    while (packSelected!=0){
-                        this.crearMenu(new String[]{"1-Agregar servicios","2-Modificar servicios","0-Salir"});
-                        packSelected = scanner.nextInt();
-                        switch (packSelected){
-                            case 1:
-                                Paquete.performAction("insert");
-                                break;
-                            case 2:
-                                Paquete.performAction("update");
-                                packSelected = 0;
-                                break;
-                            case 0:
-                                Menu.getInstance().menuPrincipal();
-                                break;
-                            default:
-                                System.out.println("Valor no valido");
-                                break;
-                        }
-                    }
-                }
-                catch (Exception e) {
-                    scanner.next();
-                    System.out.println("Valor no valido");
-                }
-                break;
+            int opcion = this.subMenu(new String[]{"1-Agregar servicios","2-Modificar servicios","3-Cambiar precio de paquetes","0-Salir"});
+            switch (opcion){
+                case 1:
+                    ListaPaquetes.performAction("insert");
+                    break;
+                case 2:
+                    ListaPaquetes.performAction("update");
+                    break;
+
+                case 3:
+                    ListaPaquetes.cambiarPrecios();
+                    System.out.println("Precios cambiados con exito");
+                    break;
+                case 0:
+                    menuHotel();
+                    break;
             }
-
-
-
         }
 
 

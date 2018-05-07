@@ -1,20 +1,24 @@
 package parcial.base;
 
 import parcial.logic.ListaPaquetes;
+import parcial.utils.Globals;
 import parcial.utils.Menu;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Paquete {
 
     private String nombre;
     private  ArrayList<Servicio> servicios = new ArrayList<>();
+    private Double precio;
 
     public String getNombre() {
         return nombre;
     }
 
+    public void setPrecio(Double precio) {
+        this.precio = precio;
+    }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -24,120 +28,25 @@ public class Paquete {
         return servicios;
     }
 
-    public Paquete(String nombre, int cantiServicios) {
+    public Paquete(String nombre, int cantiServicios, Double precio) {
         if(cantiServicios!=0){
             this.nombre = nombre;
             for (int i=0;i<cantiServicios;i++){
                 servicios.add( Servicio.pedir(nombre,i));
             }
+            this.precio = precio;
         }
 
 
     }
-
-    public void addNewServicio(String descripcion){
-        servicios.add(new Servicio(servicios.size()+1,descripcion));
-    }
-
     public  void listarServicios(){
         for (Servicio servicio: this.getServicios()){
             System.out.println(servicio.getId()+": "+servicio.getDescripcion());
         }
     }
-
-    public static void performAction(String action){
-        Scanner scanner = new Scanner(System.in);
-        int servSelected;
-        switch (action){
-            case "insert":
-                servSelected = 10;
-
-                while (servSelected!=0){
-                    System.out.println("Ingrese el paquete al que desea agregarle un servicio: \n");
-                    System.out.println("1-Premium");
-                    System.out.println("2-Basico");
-                    System.out.println("0- Volver");
-                    servSelected = scanner.nextInt();
-                    switch (servSelected){
-                        case 1:
-                            ListaPaquetes.getInstance().addServicioPaquete(ListaPaquetes.getInstance().getPaquetes().get(0),Servicio.pedir());
-                            servSelected = 0;
-                            break;
-                        case 2:
-                            ListaPaquetes.getInstance().addServicioPaquete(ListaPaquetes.getInstance().getPaquetes().get(1),Servicio.pedir());
-                            servSelected = 0;
-                            break;
-                        case 0:
-                            Menu.getInstance().menuPaquete(1);
-                            break;
-
-                        default:
-                            System.out.println("No ha ingresado un valor valido");
-                            break;
-                    }
-
-                }
-
-                break;
-
-            case "update":
-                servSelected = 10;
-
-                while (servSelected!=0){
-                    System.out.println("Ingrese el paquete que desea modificar: \n");
-                    System.out.println("1-Premium");
-                    System.out.println("2-Basico");
-                    System.out.println("0- Volver");
-                    servSelected = scanner.nextInt();
-                    switch (servSelected){
-                        case 1:
-                            ListaPaquetes.getInstance().updatePaquete("Premium");
-                            servSelected = 0;
-                            break;
-                        case 2:
-                            ListaPaquetes.getInstance().updatePaquete("Basico");
-                            servSelected = 0;
-                            break;
-                        case 0:
-                            Menu.getInstance().menuPaquete(1);
-                            break;
-
-                        default:
-                            System.out.println("No ha ingresado un valor valido");
-                            break;
-                    }
-
-                }
-                break;
-            }
-        }
-        public static int[]  pedir(){
-            int [] cantidad = new int[2];
-            Scanner scanner = new Scanner(System.in);
-            int op = 1;
-            while (op!=0){
-                try {
-                    System.out.println("Ingrese la cantidad de servicios para el paquete Premium");
-                    cantidad[0] = scanner.nextInt();
-                    op=0;
-                }
-                catch (Exception e){
-                    scanner.next();
-                    System.out.println("Valor no valido");
-                }
-            }
-            op = 1;
-            while (op!=0){
-                try {
-                    System.out.println("Ingrese la cantidad de servicios para el paquete Basico");
-                    cantidad[1] = scanner.nextInt();
-                    op=0;
-                }
-                catch (Exception e){
-                    scanner.next();
-                    System.out.println("Valor no valido");
-                }
-            }
-            return cantidad;
-        }
+    public void addNewServicio(String descripcion){
+        servicios.add(new Servicio(servicios.size()+1,descripcion));
     }
+
+
+}

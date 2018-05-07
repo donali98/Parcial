@@ -8,15 +8,20 @@ package parcial.logic;
 
 import parcial.base.Paquete;
 import parcial.base.Servicio;
+import parcial.utils.Globals;
 import parcial.utils.Menu;
+import parcial.utils.Precios;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ListaPaquetes {    
     private ListaPaquetes(){}
     private static ListaPaquetes listaPaquetes;
+
     private static ArrayList<Paquete> paquetes = new ArrayList<>();
-    
+    Double precio;
+
     //metodo get instance de la clase 
     public static ListaPaquetes getInstance(){
         if(listaPaquetes == null){
@@ -29,9 +34,9 @@ public class ListaPaquetes {
         return paquetes;
     }
 
-    public  void addPaquete(String nombrePaquete, int cantiServicios){
+    public  void addPaquete(String nombrePaquete, int cantiServicios, Double precio){
 
-        paquetes.add(new Paquete(nombrePaquete,cantiServicios));
+        paquetes.add(new Paquete(nombrePaquete,cantiServicios,precio));
     }
 
     
@@ -43,33 +48,20 @@ public class ListaPaquetes {
     public  void updatePaquete(String nombrePaquete){
         Scanner scanner = new Scanner(System.in);
         for(Paquete paquete: paquetes){
-            if(paquete.getNombre().contains(nombrePaquete)){
+            if(paquete.getNombre().equals(nombrePaquete)){
                 int op = 10;
                 while (op!=0){
-                    Menu.getInstance().crearMenu(new String[]{"1-Cambiar nombre","2-Modificar servicios","0-Volver"});
+                    Menu.getInstance().crearMenu(new String[]{"1-Cambiar precio","2-Modificar servicios","0-Volver"});
                     op = scanner.nextInt();
                     switch (op){
                         case 1:
-                            System.out.println("Ingrese el nuevo nombre: ");
+                            System.out.println("Ingrese el nuevo precio: ");
                             paquete.setNombre(scanner.next());
                             break;
                         case 2:
-                            boolean encontrado = false;
                             paquete.listarServicios();
-                            System.out.println("Seleccione el nombre del servicio que desea modificar (0 para cancelar)");
-                            int pa = scanner.nextInt();
-                            while (true){
-                                for (Servicio servicio: paquete.getServicios()){
-                                    if(servicio.getId()== pa){
-                                        encontrado = true;
-                                        servicio.setDescripcion(Servicio.pedir());
-                                        System.out.println("Servicio modificado con exito");
-                                        break;
-                                    }
-                                }
-                                break;
-                            }
-                            if(!encontrado) System.out.println("Servicio no encontrado");
+                            this.buscarServicio(paquete);
+
                             break;
                         case 0:
                             Menu.getInstance().menuPaquete(1);
@@ -78,5 +70,76 @@ public class ListaPaquetes {
                 }
             }
         }
+    }
+
+    private void buscarServicio(Paquete paquete){
+        boolean encontrado = false;
+        while (!encontrado){
+            int id = Globals.pedirInt("el id del servicio que desea modificar");
+            if(id == 0) break;
+            for (Servicio servicio: paquete.getServicios()){
+                if (servicio.getId() == id){
+                    encontrado=true;
+                    servicio.setDescripcion(Servicio.pedir());
+                    System.out.println("Servicio modificado con exito");
+                }
+            }
+            if (!encontrado) System.out.println("Servicio no encontrado, verificar el id ingresado");
+        }
+    }
+    public static void performAction(String action){
+
+        int opcion;
+        switch (action){
+            case "insert":
+                System.out.println("Selecione el paquete: ");
+                opcion = Menu.getInstance().subMenu(new String []{"1-Premium","2-Basico","0-Volver"});
+                switch (opcion){
+                    case 1:
+                        ListaPaquetes.getInstance().addServicioPaquete(ListaPaquetes.getInstance().getPaquetes().get(0),Servicio.pedir());
+                        break;
+                    case 2:
+                        ListaPaquetes.getInstance().addServicioPaquete(ListaPaquetes.getInstance().getPaquetes().get(1),Servicio.pedir());
+                        break;
+                    case 0:
+                        Menu.getInstance().menuHotel();
+                        break;
+                }
+
+                break;
+
+            case "update":
+                System.out.println("Selecione el paquete: ");
+                opcion = Menu.getInstance().subMenu(new String []{"1-Premium","2-Basico","0-Volver"});
+
+                switch (opcion){
+
+                    case 1:
+                        ListaPaquetes.getInstance().updatePaquete("Premium");
+
+                        break;
+                    case 2:
+                        ListaPaquetes.getInstance().updatePaquete("Basico");
+
+                        break;
+
+                    case 0:
+                        Menu.getInstance().menuHotel();
+                        break;
+                }
+                break;
+        }
+    }
+    public static int[] pedirServicios(){
+        int [] cantidad = new int[2];
+        cantidad[0] = Globals.pedirInt("la cantidad de servicios para el paquete Premium");
+        cantidad[1] = Globals.pedirInt("la cantidad de servicios para el paquete Basico");
+
+        return cantidad;
+    }
+    public static void cambiarPrecios(){
+        Double [] precios = Precios.pedirPrecioPaquetes();
+        paquetes.get(0).setPrecio(precios[0]);
+        paquetes.get(1).setPrecio(precios[1]);
     }
 }
