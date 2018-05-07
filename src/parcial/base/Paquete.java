@@ -25,10 +25,13 @@ public class Paquete {
     }
 
     public Paquete(String nombre, int cantiServicios) {
-        this.nombre = nombre;
-        for (int i=0;i<cantiServicios;i++){
-            servicios.add( Servicio.pedir(nombre,i));
+        if(cantiServicios!=0){
+            this.nombre = nombre;
+            for (int i=0;i<cantiServicios;i++){
+                servicios.add( Servicio.pedir(nombre,i));
+            }
         }
+
 
     }
 

@@ -127,7 +127,7 @@ private static Menu menu;
 
             }
             catch (Exception e){
-
+                System.out.println(e.toString());
             }
         }
     }
@@ -142,6 +142,8 @@ private static Menu menu;
             int canti[] = Paquete.pedir();
             ListaPaquetes.getInstance().addPaquete("Premium",canti[0]);
             ListaPaquetes.getInstance().addPaquete("Basico",canti[1]);
+            ListaPaquetes.getInstance().addPaquete("Ninguno",0);
+
         }
         if(origen!=0){
             while (true){

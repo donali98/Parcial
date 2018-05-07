@@ -30,6 +30,7 @@ public class ListaPaquetes {
     }
 
     public  void addPaquete(String nombrePaquete, int cantiServicios){
+
         paquetes.add(new Paquete(nombrePaquete,cantiServicios));
     }
 
