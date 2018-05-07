@@ -124,34 +124,41 @@ public class ListaReservacion {
                         System.out.println("-----------------------------------------------");
                         break;
                     }
-                    System.out.println("Ingrese una habitacion por el codigo: ");
-                    String codigo = scanner.next().toUpperCase();
-                    //Valida existencia de la habitacion
-                    Habitacion habitacion =  this.validarCodigo(codigo);
-                    if(habitacion!=null){
-                        if(!habitacion.getEstado().equals("ocupada")){
-                            op = 1;
-                            System.out.println("La habitacion que ha ingresado no esta asociada a una reservacion");
-                        }
-                        else {
-                            op = 0;
-                            //Si quiere eliminar la reservacion
-                            if(Menu.getInstance().mostrarMenuConfirmacion("Esta seguro que desea eliminar la reservacion asociada con la habitacion "+codigo)){
-                                //busca la reservacion
-                                Reservacion reservacionAEliminar = buscarReservacion(habitacion);
-                                //si la encuentra
-                                if(reservacionAEliminar!=null){
-                                    reservaciones.remove(reservacionAEliminar);
-                                    System.out.println("Reservacion eliminada con exito");
-                                    this.cambiarEstadoHabitacion(true,habitacion);
-                                }
-                                else System.out.println("Reservacion con la habitacion especificada no ha sido encotrada");
-                            }
-                        }
+                    System.out.println("Ingrese una habitacion por el codigo(0 para volver): ");
+                    String codigo = scanner.next();
+                    if(codigo.equals("0")){
+                        break;
                     }
                     else{
-                        System.out.println("Habitacion no encontrada, asegurese que ha ingresado el codigo de habitacion correctamente");
+                        codigo = codigo.toUpperCase();
+                        //Valida existencia de la habitacion
+                        Habitacion habitacion =  this.validarCodigo(codigo);
+                        if(habitacion!=null){
+                            if(!habitacion.getEstado().equals("ocupada")){
+                                op = 1;
+                                System.out.println("La habitacion que ha ingresado no esta asociada a una reservacion");
+                            }
+                            else {
+                                op = 0;
+                                //Si quiere eliminar la reservacion
+                                if(Menu.getInstance().mostrarMenuConfirmacion("Esta seguro que desea eliminar la reservacion asociada con la habitacion "+codigo)){
+                                    //busca la reservacion
+                                    Reservacion reservacionAEliminar = buscarReservacion(habitacion);
+                                    //si la encuentra
+                                    if(reservacionAEliminar!=null){
+                                        reservaciones.remove(reservacionAEliminar);
+                                        System.out.println("Reservacion eliminada con exito");
+                                        this.cambiarEstadoHabitacion(true,habitacion);
+                                    }
+                                    else System.out.println("Reservacion con la habitacion especificada no ha sido encotrada");
+                                }
+                            }
+                        }
+                        else{
+                            System.out.println("Habitacion no encontrada, asegurese que ha ingresado el codigo de habitacion correctamente");
+                        }
                     }
+
                 }
                 break;
             case "update":
@@ -162,58 +169,65 @@ public class ListaReservacion {
                         System.out.println("-----------------------------------------------");
                         break;
                     }
-                    System.out.println("Ingrese una habitacion por el codigo: ");
-                    String codigo = scanner.next().toUpperCase();
-                    //Valida existencia de la habitacion
-                    Habitacion habitacion =  this.validarCodigo(codigo);
-                    if(habitacion!=null){
-                        if(!habitacion.getEstado().equals("ocupada")){
-                            op = 1;
-                            System.out.println("La habitacion que ha ingresado no esta asociada a una reservacion");
-                        }
-                        else {
-                            int opModificar = 1;
-                            //Si quiere eliminar la reservacion
-                            //busca la reservacion
-                            Reservacion reservacionAModificar = buscarReservacion(habitacion);
-                            //si la encuentra
-                            if(reservacionAModificar!=null){
-                                String [] opcionesMenuModificar =new String[]{"1-Nombres Huesped","2-DUI Huesped","3-Habitacion","4-Fechas","0-Regresar"};
-                                opModificar = Menu.getInstance().subMenu(opcionesMenuModificar);
-                                Huesped huesped = this.buscarReservacion(habitacion).getHuesped();
-                                Menu menu = Menu.getInstance();
-                                switch (opModificar){
-                                    case 1:
-                                        String[] nombres = Nombre.pedir();
-
-                                        if(menu.mostrarMenuConfirmacion("Esta seguro que desea modificar los nombres del huesped?")){
-                                            huesped.getNombres().setNombres(nombres[0]);
-                                            huesped.getNombres().setApellidos(nombres[1]);
-                                            System.out.println("Nombres del huesped modificados con exito");
-                                            op = 0;
-                                        }
-                                        break;
-                                    case 2:
-                                        String dui = Dui.pedir();
-                                        if(menu.mostrarMenuConfirmacion("Esta seguro que desea modificar los nombres del huesped?")) {
-                                            huesped.setDui(Dui.getDuiFromString(dui));
-                                            System.out.println("Dui del huesped modificado con exito");
-                                        }
-                                        op = 0;
-                                        break;
-                                    case 3:
-
-                                        if(menu.mostrarMenuConfirmacion("Esta seguro que desea reasignar reservacion?")){
-                                            reservaciones.remove(habitacion);
-                                            this.performAction("insert");
-                                        }
-                                        op = 0;
-                                        break;
-                                }
+                    System.out.println("Ingrese una habitacion por el codigo (0 para volver): ");
+                    String codigo = scanner.next();
+                    if(codigo.equals("0")){
+                        break;
+                    }
+                    else {
+                        codigo = codigo.toUpperCase();
+                        //Valida existencia de la habitacion
+                        Habitacion habitacion =  this.validarCodigo(codigo);
+                        if(habitacion!=null){
+                            if(!habitacion.getEstado().equals("ocupada")){
+                                op = 1;
+                                System.out.println("La habitacion que ha ingresado no esta asociada a una reservacion");
                             }
-                            else System.out.println("Reservacion con la habitacion especificada no ha sido encotrada");
+                            else {
+                                int opModificar = 1;
+                                //Si quiere eliminar la reservacion
+                                //busca la reservacion
+                                Reservacion reservacionAModificar = buscarReservacion(habitacion);
+                                //si la encuentra
+                                if(reservacionAModificar!=null){
+                                    String [] opcionesMenuModificar =new String[]{"1-Nombres Huesped","2-DUI Huesped","3-Habitacion","4-Fechas","0-Regresar"};
+                                    opModificar = Menu.getInstance().subMenu(opcionesMenuModificar);
+                                    Huesped huesped = this.buscarReservacion(habitacion).getHuesped();
+                                    Menu menu = Menu.getInstance();
+                                    switch (opModificar){
+                                        case 1:
+                                            String[] nombres = Nombre.pedir();
+
+                                            if(menu.mostrarMenuConfirmacion("Esta seguro que desea modificar los nombres del huesped?")){
+                                                huesped.getNombres().setNombres(nombres[0]);
+                                                huesped.getNombres().setApellidos(nombres[1]);
+                                                System.out.println("Nombres del huesped modificados con exito");
+                                                op = 0;
+                                            }
+                                            break;
+                                        case 2:
+                                            String dui = Dui.pedir();
+                                            if(menu.mostrarMenuConfirmacion("Esta seguro que desea modificar los nombres del huesped?")) {
+                                                huesped.setDui(Dui.getDuiFromString(dui));
+                                                System.out.println("Dui del huesped modificado con exito");
+                                            }
+                                            op = 0;
+                                            break;
+                                        case 3:
+
+                                            if(menu.mostrarMenuConfirmacion("Esta seguro que desea reasignar reservacion?")){
+                                                reservaciones.remove(habitacion);
+                                                this.performAction("insert");
+                                            }
+                                            op = 0;
+                                            break;
+                                    }
+                                }
+                                else System.out.println("Reservacion con la habitacion especificada no ha sido encotrada");
+                            }
                         }
                     }
+
                 }
                 break;
         }
@@ -353,11 +367,16 @@ public class ListaReservacion {
             System.out.println("Habitaciones reservadas: ");
             System.out.println("------------------------------------------------------------------------");
             for (Habitacion habitacion: this.devolverHabitacionesConEstado(false)){
+                String paqueteAdquirido = this.buscarReservacion(habitacion).getPaquete().getNombre();
+                if (!paqueteAdquirido.equals("Premium") &&!paqueteAdquirido.equals("Basico") ) paqueteAdquirido = "Ninguno";
+
                 System.out.println("------------------------------------------------------------------------");
                 Reservacion reservacion = listaReservacion.buscarReservacion(habitacion);
                 existe = true;
-                System.out.println("Codigo: "+habitacion.getCodigo());
+                System.out.println("Codigo Habitacion: "+habitacion.getCodigo());
+                System.out.println("DUI Cliente: "+reservacion.getHuesped().getDui().getDigitos());
                 System.out.println("Cliente: "+reservacion.getHuesped().getNombres().getApellidos()+", "+reservacion.getHuesped().getNombres().getNombres());
+                System.out.println("Paquete: "+paqueteAdquirido);
                 System.out.println("Fecha Inicio : "+reservacion.getFechaInicio());
                 System.out.println("Fecha Fin : "+reservacion.getFechaFin());
                 System.out.println("Monto Cancelado : "+"$"+reservacion.getTotalPagar());
