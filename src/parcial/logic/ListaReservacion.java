@@ -36,6 +36,10 @@ public class ListaReservacion {
         return listaReservacion;
     }
 
+    public static ArrayList<Reservacion> getReservaciones(){
+        return reservaciones;
+    }
+
 
     public void performAction(String action){
         Scanner scanner = new Scanner(System.in);
@@ -231,6 +235,7 @@ public class ListaReservacion {
                 break;
         }
     }
+
 
 
     private Double calcularTotal(Habitacion habitacion,int dias, String tipoPaquete){

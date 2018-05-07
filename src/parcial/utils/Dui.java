@@ -5,6 +5,9 @@
  */
 package parcial.utils;
 
+import parcial.base.Reservacion;
+import parcial.logic.ListaReservacion;
+
 import java.util.Scanner;
 
 /**
@@ -78,10 +81,31 @@ public class Dui {
         while (true) {
             System.out.println("DUI del usuario:");
             dui = reader.next();
-            if (Dui.validarDui(dui)) break;
+            if (Dui.validarDui(dui)){
+                if(yaRegistro(dui)){
+                    System.out.println("Huesped con ese DUI ya tiene una reservacion");
+                }
+                else break;
+            }
             else System.out.println("DUI no valido");
         }
         return dui;
-    }    
-    
+    }
+    private static boolean yaRegistro(String dui){
+        Dui parsedDui = Dui.getDuiFromString(dui);
+        for(Reservacion reservacion : ListaReservacion.getReservaciones()){
+            if(compararDui(parsedDui,reservacion.getHuesped().getDui())){
+                return true;
+            }
+        }
+        return false;
+
+    }
+    //devuelve true en caso de que ya halla uno
+    private static boolean compararDui(Dui dui, Dui dui1){
+        for(int i = 0; i<8;i++){
+            if(!(dui.digitos[i] == dui1.digitos[i])) return false;
+        }
+        return true;
+    }
 }
