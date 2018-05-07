@@ -115,13 +115,13 @@ private static Menu menu;
                 selected = scanner.nextInt();
                 switch (selected){
                     case 1:
-                        ListaReservacion.getInstance().performAction("insert");
+                        ListaReservacion.getInstance().performAction("insert",null);
                     break;
                     case 2:
-                        ListaReservacion.getInstance().performAction("delete");
+                        ListaReservacion.getInstance().performAction("delete",null);
                     break;
                     case 3:
-                        ListaReservacion.getInstance().performAction("update");
+                        ListaReservacion.getInstance().performAction("update",null);
                     break;
                 }
 
