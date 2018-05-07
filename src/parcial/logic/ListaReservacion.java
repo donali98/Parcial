@@ -358,9 +358,11 @@ public class ListaReservacion {
 
         for (Habitacion habitacion: this.devolverHabitacionesConEstado(false)){
              reservacion = this.buscarReservacion(habitacion);
-             if(reservacion.getFechaInicio().equals(limiteInferior) || reservacion.getFechaInicio().isAfter(limiteInferior)){
-                 if(reservacion.getFechaInicio().isAfter(limiteSuperiot)) break;
-                 else output.add(reservacion);
+             if(reservacion.getFechaInicio().equals(limiteInferior)){
+                 output.add(reservacion);
+             }
+             else if(reservacion.getFechaInicio().isAfter(limiteInferior) && reservacion.getFechaInicio().isBefore(limiteSuperiot)){
+                 output.add(reservacion);
              }
         }
 
@@ -390,13 +392,12 @@ public class ListaReservacion {
             System.out.println("Desea ver todas las reservaciones o solo las de esta semana?");
             int filtro = Menu.getInstance().subMenu(new String[]{
                     "1-Todas",
-                    "2-Esta Semana"
+                    "2-Programadas para esta Semana"
             });
             switch (filtro){
                 case 1:
                     for (Habitacion habitacion: this.devolverHabitacionesConEstado(false)){
                         String paqueteAdquirido = this.buscarReservacion(habitacion).getPaquete().getNombre();
-                        if (!paqueteAdquirido.equals("Premium") &&!paqueteAdquirido.equals("Basico") ) paqueteAdquirido = "Ninguno";
 
                         System.out.println("------------------------------------------------------------------------");
                         Reservacion reservacion = listaReservacion.buscarReservacion(habitacion);
@@ -415,7 +416,6 @@ public class ListaReservacion {
                 case 2:
                     for (Reservacion reservacion: this.mostrarReservacionesSemana()){
                         String paqueteAdquirido = reservacion.getPaquete().getNombre();
-                        if (!paqueteAdquirido.equals("Premium") &&!paqueteAdquirido.equals("Basico") ) paqueteAdquirido = "Ninguno";
                         System.out.println("------------------------------------------------------------------------");
                         existe = true;
                         System.out.println("Codigo Habitacion: "+reservacion.getHabitacion().getCodigo());
