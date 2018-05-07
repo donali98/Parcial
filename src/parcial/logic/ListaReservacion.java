@@ -421,13 +421,23 @@ public class ListaReservacion {
             try{
                 System.out.println("Ingrese la fecha de check-out(yyyy-MM-dd): ");
                 output[1] = parseDate(scanner.next());
-                resultadoValidacion=this.validarDuracionReserva(output[0],output[1]);
-                if (!resultadoValidacion[0].equals("ok")){
-                    System.out.println("-----------------------------------------------------------");
-                    System.out.println(resultadoValidacion[1]);
-                    System.out.println("-----------------------------------------------------------");
+                if(output[1].isBefore(output[0])){
+                    System.out.println("La fecha de checkout no puede ser una fecha antes de la del check in");
                 }
-                else op =0;
+                else if(output[1].equals(output[0])){
+                    System.out.println("Una reservacion debe ser de un dia minimo");
+
+                }
+                else {
+                    resultadoValidacion=this.validarDuracionReserva(output[0],output[1]);
+
+                    if (!resultadoValidacion[0].equals("ok")){
+                        System.out.println("-----------------------------------------------------------");
+                        System.out.println(resultadoValidacion[1]);
+                        System.out.println("-----------------------------------------------------------");
+                    }
+                    else op =0;
+                }
             }
             catch (Exception e){
                 System.out.println("Valores no validos");
