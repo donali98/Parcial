@@ -297,43 +297,17 @@ public class ListaReservacion {
 
 
     private String sugerirPaquete(){
+
         Scanner scanner = new Scanner(System.in);
-        String selected;
-        int op = 10;
-        while (op!=0){
-            System.out.println("Asignar paquete? (s/n)");
-            selected = scanner.next();
-            switch (selected){
-                case "s":
-                    int opPaquete = 10;
-
-                        while (opPaquete!=0) {
-                            try {
-                                System.out.println("Seleccione el paquete: ");
-                                System.out.println("1-Premium");
-                                System.out.println("2-Basico");
-                                opPaquete = scanner.nextInt();
-                                switch (opPaquete) {
-                                    case 1:
-                                        return "Premium";
-
-                                    case 2:
-                                        return "Basico";
-                                    default:
-                                        System.out.println("Opcion no valida");
-                                        break;
-                                }
-
-                            } catch (Exception e) {
-                                System.out.println("Valor no valido");
-                            }
-                        }
-                    op = 0;
-                break;
-                default:
-                    return "";
-
-            }
+        int selected;
+        if(Menu.getInstance().mostrarMenuConfirmacion("Asignar paquete?")){
+           selected = Menu.getInstance().subMenu(new String []{"1-Premium","2-Basico"});
+           switch (selected){
+               case 1:
+                   return "Premium";
+               case 2:
+                   return "Basico";
+           }
         }
         return "";
     }
