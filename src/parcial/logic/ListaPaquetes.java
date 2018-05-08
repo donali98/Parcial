@@ -39,7 +39,7 @@ public class ListaPaquetes {
         paquetes.add(new Paquete(nombrePaquete,cantiServicios,precio));
     }
 
-    
+
     public void addServicioPaquete(Paquete paquete,String descripcion ){
        paquete.addNewServicio(descripcion);
     }
@@ -86,8 +86,15 @@ public class ListaPaquetes {
                             System.out.println("Servicio modificado con exito");
                         break;
                         case "delete":
-                            paquete.getServicios().remove(servicio);
-                            System.out.println("Servicio eliminado con exito");
+                            if(paquete.getServicios().size()==1){
+                                System.out.println("Debe existir al menos un servicio en el paquete");
+                                break;
+                            }
+                            else{
+                                paquete.getServicios().remove(servicio);
+                                System.out.println("Servicio eliminado con exito");
+                            }
+
                         break;
                     }
                 }
