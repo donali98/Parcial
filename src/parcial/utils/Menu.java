@@ -142,10 +142,13 @@ private static Menu menu;
         if(ListaPaquetes.getInstance().getPaquetes().size() == 0) {
 
             //Creando los 3 paquete
-            int canti[] = ListaPaquetes.pedirServicios();
+            /*int canti[] = ListaPaquetes.pedirServicios();
             Double[] preciosPaquetes = Precios.pedirPrecioPaquetes();
             ListaPaquetes.getInstance().addPaquete("Premium",canti[0], preciosPaquetes[0]);
             ListaPaquetes.getInstance().addPaquete("Basico",canti[1],preciosPaquetes[1]);
+            ListaPaquetes.getInstance().addPaquete("Ninguno",0,0.0);*/
+            ListaPaquetes.getInstance().addPaquete("Premium",1, 30.45);
+            ListaPaquetes.getInstance().addPaquete("Basico",1,9.99);
             ListaPaquetes.getInstance().addPaquete("Ninguno",0,0.0);
 
         }
