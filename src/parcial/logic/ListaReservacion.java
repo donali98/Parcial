@@ -135,7 +135,7 @@ public class ListaReservacion {
                 }
                 break;
             case "delete":
-                String codigo = scanner.next();
+                String codigo;
                 Habitacion habitacion;
                 while (op!=0){
                     if(reservacionPivote==null){
@@ -149,15 +149,16 @@ public class ListaReservacion {
 
                     if(reservacionPivote==null){
                         System.out.println("Ingrese una habitacion por el codigo(0 para volver): ");
+                        codigo = scanner.next().toUpperCase();
                         if(codigo.equals("0")){
                             break;
                         }
-                        codigo = codigo.toUpperCase();
                         //Valida existencia de la habitacion
                         habitacion =  this.validarCodigo(codigo);
                     }
                     else{
                         habitacion = reservacionPivote.getHabitacion();
+                        codigo = habitacion.getCodigo();
                     }
                     if(habitacion!=null){
                         if(!habitacion.getEstado().equals("ocupada")){

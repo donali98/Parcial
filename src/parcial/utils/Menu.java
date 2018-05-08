@@ -129,7 +129,8 @@ private static Menu menu;
 
             }
             catch (Exception e){
-                System.out.println(e.toString());
+                scanner.next();
+                System.out.println("Valor no valido");
             }
         }
     }
@@ -149,18 +150,24 @@ private static Menu menu;
 
         }
         if(origen!=0){
-            int opcion = this.subMenu(new String[]{"1-Agregar servicios","2-Modificar servicios","3-Cambiar precio de paquetes","0-Salir"});
+            int opcion = this.subMenu(new String[]{"1-Agregar servicios","2-Modificar servicios","3-Eliminar Servicios","4-Cambiar precio de paquetes","0-Salir"});
             switch (opcion){
                 case 1:
                     ListaPaquetes.performAction("insert");
+                    menuHotel();
                     break;
                 case 2:
                     ListaPaquetes.performAction("update");
+                    menuHotel();
                     break;
-
                 case 3:
+                    ListaPaquetes.performAction("delete");
+                    menuHotel();
+                    break;
+                case 4:
                     ListaPaquetes.cambiarPrecios();
-                    System.out.println("Precios cambiados con exito");
+                    System.out.println("Precios modificados exitosamente");
+                    menuHotel();
                     break;
                 case 0:
                     menuHotel();

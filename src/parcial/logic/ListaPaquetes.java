@@ -55,12 +55,12 @@ public class ListaPaquetes {
                     op = scanner.nextInt();
                     switch (op){
                         case 1:
-                            System.out.println("Ingrese el nuevo precio: ");
-                            paquete.setNombre(scanner.next());
+                            Double nuevo = Globals.pedirDouble("el nuevo precio");
+                            paquete.setPrecio(nuevo);
                             break;
                         case 2:
                             paquete.listarServicios();
-                            this.buscarServicio(paquete);
+                            this.buscarServicio("update",paquete);
 
                             break;
                         case 0:
@@ -72,22 +72,31 @@ public class ListaPaquetes {
         }
     }
 
-    private void buscarServicio(Paquete paquete){
+    private static void buscarServicio(String accion,Paquete paquete){
         boolean encontrado = false;
         while (!encontrado){
-            int id = Globals.pedirInt("el id del servicio que desea modificar");
+            int id = Globals.pedirInt("el id del servicio que desea modificar(0 para cancelar)");
             if(id == 0) break;
             for (Servicio servicio: paquete.getServicios()){
                 if (servicio.getId() == id){
                     encontrado=true;
-                    servicio.setDescripcion(Servicio.pedir());
-                    System.out.println("Servicio modificado con exito");
+                    switch (accion){
+                        case "update":
+                            servicio.setDescripcion(Servicio.pedir());
+                            System.out.println("Servicio modificado con exito");
+                        break;
+                        case "delete":
+                            paquete.getServicios().remove(servicio);
+                            System.out.println("Servicio eliminado con exito");
+                        break;
+                    }
                 }
             }
             if (!encontrado) System.out.println("Servicio no encontrado, verificar el id ingresado");
         }
     }
     public static void performAction(String action){
+        Scanner scanner = new Scanner(System.in);
 
         int opcion;
         switch (action){
@@ -127,7 +136,24 @@ public class ListaPaquetes {
                         Menu.getInstance().menuHotel();
                         break;
                 }
-                break;
+            break;
+            case "delete":
+                System.out.println("Selecione el paquete: ");
+                opcion = Menu.getInstance().subMenu(new String []{"1-Premium","2-Basico","0-Volver"});
+                switch (opcion){
+                    case 1:
+                        buscarServicio("delete",paquetes.get(0));
+                        Menu.getInstance().menuHotel();
+                        break;
+                    case 2:
+                        buscarServicio("delete",paquetes.get(1));
+                        Menu.getInstance().menuHotel();
+                        break;
+                    case 0:
+                        Menu.getInstance().menuHotel();
+                        break;
+                }
+            break;
         }
     }
     public static int[] pedirServicios(){

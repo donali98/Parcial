@@ -33,9 +33,9 @@ public class Precios {
         Scanner scanner = new Scanner(System.in);
         preciosPaquetes[0] = Globals.pedirDouble("el precio del paquete Premium");
         preciosPaquetes[1] = Globals.pedirDouble("el precio del paquete Basico");
-        while (preciosPaquetes[0]>=preciosPaquetes[1]){
+        while (preciosPaquetes[0]<=preciosPaquetes[1]){
             if(!Menu.getInstance().mostrarMenuConfirmacion("Advertencia, el precio del paquete Premium es superior o igual al del Basico, desea continuar?")){
-                preciosPaquetes[1] = Globals.pedirDouble("el precio de la habitacion doble");
+                preciosPaquetes[1] = Globals.pedirDouble("el precio del paquete Basico");
             }
             else break;
         }
