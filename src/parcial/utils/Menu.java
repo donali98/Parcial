@@ -8,6 +8,7 @@ package parcial.utils;
 import java.util.Scanner;
 import java.util.zip.DeflaterOutputStream;
 
+import parcial.base.Habitacion;
 import parcial.base.Paquete;
 import parcial.logic.ListaHabitacion;
 import parcial.logic.ListaPaquetes;
@@ -80,7 +81,7 @@ private static Menu menu;
         int selected = 10;
         while (selected!=0){
             try{
-                this.crearMenu(new String[]{"1-Reservaciones","2-Administrar paquetes","0-Salir"});
+                this.crearMenu(new String[]{"1-Reservaciones","2-Administrar paquetes","3-Administrar pisos/habitaciones","0-Salir"});
                 selected = scanner.nextInt();
                 switch (selected){
                     case 1:
@@ -90,6 +91,10 @@ private static Menu menu;
                         menuPaquete(1);
                         selected = 0;
                         break;
+
+                    case 3:
+                        menuCuartos();
+                    break;
                     case 0:
                         menuPrincipal();
                         break;
@@ -103,6 +108,19 @@ private static Menu menu;
                 System.out.println("Valor no valido");
 
             }
+        }
+    }
+
+    public void menuCuartos(){
+        int op = this.subMenu(new String[]{"1-Deshabilitar Cuartos","2-Deshabilitar Pisos","0-Salir"});
+        switch (op){
+            case 1:
+                Habitacion habitacion = ListaHabitacion.pedir();
+                ListaHabitacion.deshabilitarCuarto(habitacion);
+                ListaReservacion.getInstance().mostrarHabitaciones("disponibles");
+                break;
+            case 2:
+                break;
         }
     }
     

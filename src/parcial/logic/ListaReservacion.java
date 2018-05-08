@@ -51,10 +51,10 @@ public class ListaReservacion {
 
                 while (op!=0){
                     try {
-                        this.mostrarHabitaciones(true);
+                        this.mostrarHabitaciones("habilitadas");
                         System.out.println("Elija una habitacion por su codigo");
                         String codigoHabitacion = scanner.next().toUpperCase();
-                        Habitacion habitacionAReservar = this.validarCodigo(codigoHabitacion);
+                        Habitacion habitacionAReservar = ListaHabitacion.validarCodigo(codigoHabitacion);
                         if(habitacionAReservar!=null){
                             if (habitacionAReservar.getEstado().equals("ocupada") || habitacionAReservar.getEstado().equals("deshabilitada")){
                                 switch (habitacionAReservar.getEstado()){
@@ -139,7 +139,7 @@ public class ListaReservacion {
                 Habitacion habitacion;
                 while (op!=0){
                     if(reservacionPivote==null){
-                        if(!this.mostrarHabitaciones(false)){
+                        if(!this.mostrarHabitaciones("ocupadas")){
                             System.out.println("------------------------------------------------");
                             System.out.println("No hay habitaciones reservadas actualmente");
                             System.out.println("-----------------------------------------------");
@@ -154,7 +154,7 @@ public class ListaReservacion {
                             break;
                         }
                         //Valida existencia de la habitacion
-                        habitacion =  this.validarCodigo(codigo);
+                        habitacion =  ListaHabitacion.validarCodigo(codigo);
                     }
                     else{
                         habitacion = reservacionPivote.getHabitacion();
@@ -188,7 +188,7 @@ public class ListaReservacion {
                 break;
             case "update":
                 while (op!=0){
-                    if(!this.mostrarHabitaciones(false)){
+                    if(!this.mostrarHabitaciones("ocupadas")){
                         System.out.println("------------------------------------------------");
                         System.out.println("No hay habitaciones reservadas actualmente");
                         System.out.println("-----------------------------------------------");
@@ -202,7 +202,7 @@ public class ListaReservacion {
                     else {
                         codigo = codigo.toUpperCase();
                         //Valida existencia de la habitacion
-                         habitacion =  this.validarCodigo(codigo);
+                         habitacion =  ListaHabitacion.validarCodigo(codigo);
                         if(habitacion!=null){
                             if(!habitacion.getEstado().equals("ocupada")){
                                 op = 1;
@@ -217,7 +217,7 @@ public class ListaReservacion {
                                 if(reservacionAModificar!=null){
                                     String [] opcionesMenuModificar =new String[]{"1-Nombres Huesped","2-DUI Huesped","3-Habitacion","4-Fechas","0-Regresar"};
                                     opModificar = Menu.getInstance().subMenu(opcionesMenuModificar);
-                                    Huesped huesped = this.buscarReservacion(habitacion).getHuesped();
+                                    Huesped huesped = buscarReservacion(habitacion).getHuesped();
                                     Menu menu = Menu.getInstance();
                                     switch (opModificar){
                                         case 1:
@@ -286,7 +286,7 @@ public class ListaReservacion {
         }
     }
 
-    private Reservacion buscarReservacion(Habitacion habitacion){
+    public static  Reservacion buscarReservacion(Habitacion habitacion){
         for (Reservacion reservacion:reservaciones){
             if(reservacion.getHabitacion().equals(habitacion)){
                 return reservacion;
@@ -355,20 +355,27 @@ public class ListaReservacion {
         }
         return "Ninguno";
     }
-    private ArrayList<Habitacion> devolverHabitacionesConEstado(boolean sentido){
+    public static ArrayList<Habitacion> devolverHabitacionesConEstado(String estado){
 
         ArrayList<Habitacion> habitacionesDisponibles = new ArrayList<>();
-        if(sentido){
+        if(estado.equals("disponibles")){
             for (Habitacion habitacion: ListaHabitacion.getListaHabitaciones()){
-                if(!habitacion.getEstado().equals("ocupada") && !habitacion.getEstado().equals("deshabilitada")){
+                if(!habitacion.getEstado().equals("ocupada") && !habitacion.getEstado().equals("deshabilitada")  ){
                     habitacionesDisponibles.add(habitacion);
                 }
             }
         }
-        else
+        else if(estado.equals("ocupadas"))
         {
             for (Habitacion habitacion: ListaHabitacion.getListaHabitaciones()){
-                if(habitacion.getEstado().equals("ocupada") && !habitacion.getEstado().equals("deshabilitada")){
+                if(habitacion.getEstado().equals("ocupada")){
+                    habitacionesDisponibles.add(habitacion);
+                }
+            }
+        }
+        else if(estado.equals("deshabilitadas")){
+            for (Habitacion habitacion: ListaHabitacion.getListaHabitaciones()){
+                if(!habitacion.getEstado().equals("ocupada") && !habitacion.getEstado().equals("disponible")){
                     habitacionesDisponibles.add(habitacion);
                 }
             }
@@ -382,8 +389,8 @@ public class ListaReservacion {
         LocalDate limiteSuperiot = limiteInferior.plusDays(7);
         Reservacion reservacion;
 
-        for (Habitacion habitacion: this.devolverHabitacionesConEstado(false)){
-             reservacion = this.buscarReservacion(habitacion);
+        for (Habitacion habitacion: devolverHabitacionesConEstado("ocupadas")){
+             reservacion = buscarReservacion(habitacion);
              if(reservacion.getFechaInicio().equals(limiteInferior)){
                  output.add(reservacion);
              }
@@ -395,14 +402,14 @@ public class ListaReservacion {
        return output;
     }
 
-    private boolean mostrarHabitaciones(boolean estado){
+    public boolean mostrarHabitaciones(String estado){
         boolean existe = false;
-        if(estado){
+        if(estado.equals("disponibles")){
             System.out.println("------------------------------------------------------------------------");
             System.out.println("Habitaciones disponibles: ");
             System.out.println("------------------------------------------------------------------------");
 
-            for (Habitacion habitacion: this.devolverHabitacionesConEstado(true)){
+            for (Habitacion habitacion: devolverHabitacionesConEstado("disponibles")){
                 System.out.println("-------------------------------------------------------");
                 existe =  true;
                 System.out.println("Codigo: "+habitacion.getCodigo());
@@ -411,7 +418,7 @@ public class ListaReservacion {
                 System.out.println("-------------------------------------------------------");
             }
         }
-        else   {
+        else if(estado.equals("ocupadas")) {
             System.out.println("------------------------------------------------------------------------");
             System.out.println("Habitaciones reservadas: ");
             System.out.println("------------------------------------------------------------------------");
@@ -422,11 +429,11 @@ public class ListaReservacion {
             });
             switch (filtro){
                 case 1:
-                    for (Habitacion habitacion: this.devolverHabitacionesConEstado(false)){
-                        String paqueteAdquirido = this.buscarReservacion(habitacion).getPaquete().getNombre();
+                    for (Habitacion habitacion: devolverHabitacionesConEstado("ocupadas")){
+                        String paqueteAdquirido = buscarReservacion(habitacion).getPaquete().getNombre();
 
                         System.out.println("------------------------------------------------------------------------");
-                        Reservacion reservacion = listaReservacion.buscarReservacion(habitacion);
+                        Reservacion reservacion = buscarReservacion(habitacion);
                         existe = true;
                         System.out.println("Codigo Habitacion: "+habitacion.getCodigo());
                         System.out.println("DUI Cliente: "+reservacion.getHuesped().getDui().getDigitos());
@@ -455,21 +462,15 @@ public class ListaReservacion {
                 break;
             }
         }
+        else if(estado.equals("deshabilitadas")){
+            System.out.println("------------------------------------------------------------------------");
+            System.out.println("Habitaciones deshabilitadas: ");
+            System.out.println("------------------------------------------------------------------------");
+        }
         return  existe;
     }
 
-    private Habitacion validarCodigo(String codigo){
 
-        for(Habitacion habitacion: ListaHabitacion.getListaHabitaciones()){
-
-            if(habitacion.getCodigo().equals(codigo)){
-               return habitacion;
-
-            }
-        }
-        return null;
-
-    }
     private LocalDate[] pedirFechas(){
         Scanner scanner = new Scanner(System.in);
         String []resultadoValidacion;

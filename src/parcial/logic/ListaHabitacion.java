@@ -1,6 +1,7 @@
 package parcial.logic;
 
 import parcial.base.Habitacion;
+import parcial.utils.Menu;
 import parcial.utils.Precios;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -89,7 +90,73 @@ public class ListaHabitacion {
         }
     }
 
-    
+    public static void deshabilitarCuarto(Habitacion habitacion){
+        if(habitacion == null){
+            System.out.println("Operacion cancelada o no se encontro valor");
+        }
+        else {
+
+            switch (habitacion.getEstado()){
+                case "disponible":
+                    buscarHabitaion(habitacion).setEstado("deshabilitada");
+                    System.out.println("Habitacion deshabilitada con exito");
+                break;
+                case "deshabilitada":
+                    if(Menu.getInstance().mostrarMenuConfirmacion("La habitacion ya esta deshabilitada, desea habilitarla?")){
+                        buscarHabitaion(habitacion).setEstado("habilitada");
+                        System.out.println("Habitacion restaurada correctamente");
+                    }
+                    break;
+                case "ocupada":
+                    System.out.println("No se puede deshabilitar una habitacion que esta reservada");
+                break;
+
+            }
+        }
+    }
+    public  static Habitacion buscarHabitaion(Habitacion ha){
+        for(Habitacion habitacion:listaHabitaciones){
+            if(habitacion.equals(ha)){
+                return habitacion;
+            }
+        }
+        return  null;
+    }
+    public static Habitacion pedir(){
+        Habitacion output ;
+        String posible ;
+        Scanner scanner = new Scanner(System.in);
+        try {
+            while (true){
+                System.out.println("Ingrese el codigo de habitacion(0 para cancelar): ");
+                posible = scanner.next();
+                if(posible.equals("0")){
+                    return null;
+                }
+                Habitacion habitacion = validarCodigo(posible);
+                if(habitacion!=null){
+                    return habitacion;
+                }
+                else System.out.println("Codigo no valido, revisar valor");
+            }
+        }catch (Exception e){
+            scanner.next();
+            System.out.println("Habitacion no encontrada");
+            return null;
+        }
+    }
+    public static Habitacion validarCodigo(String codigo){
+
+        for(Habitacion habitacion: getListaHabitaciones()){
+
+            if(habitacion.getCodigo().equals(codigo)){
+                return habitacion;
+
+            }
+        }
+        return null;
+
+    }
     public static ListaHabitacion getInstance(){
         if(listaHabitacion == null){
             listaHabitaciones = new ArrayList<>();
