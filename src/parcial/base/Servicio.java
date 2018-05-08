@@ -36,7 +36,7 @@ public class Servicio {
     }
     
     public static Servicio pedir(String nombre,int i){
-        /*while (true){
+        while (true){
             Scanner scanner = new Scanner(System.in);
             System.out.println("Ingrese la descripcion del servicio "+(i+1)+" para el paquete "+nombre+": ");
             String des = scanner.nextLine();
@@ -46,8 +46,7 @@ public class Servicio {
             else{
                 return new Servicio((i+1),des);
             }
-        }*/
-        return new Servicio((i+1),Globals.getSaltString());
+        }
 
     }
     

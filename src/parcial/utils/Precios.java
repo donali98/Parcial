@@ -44,7 +44,7 @@ public class Precios {
 
     public static void pedirPreciosHabitacion(){
 
-        /*precioSencilla = Globals.pedirDouble("el precio de la habitacion sencilla");
+        precioSencilla = Globals.pedirDouble("el precio de la habitacion sencilla");
         precioDoble = Globals.pedirDouble("el precio de la habitacion doble");
 
         while (precioSencilla>=precioDoble){
@@ -52,8 +52,6 @@ public class Precios {
                     precioDoble = Globals.pedirDouble("el precio de la habitacion doble");
             }
             else break;
-        }*/
-        precioSencilla =10.50;
-        precioDoble = 25.99;
+        }
     }
 }

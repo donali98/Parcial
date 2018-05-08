@@ -31,8 +31,8 @@ public class Login {
     }
     
     public static void loguear(){
-        Menu.getInstance().menuPrincipal();
-        /*String user, pass;
+        //Menu.getInstance().menuPrincipal();
+        String user, pass;
         Scanner scanner = new Scanner(System.in);
         while (true){
             try {
@@ -54,7 +54,7 @@ public class Login {
             catch (Exception e){
                 System.out.println("valor no valido");
             }
-        }*/
+        }
 
     }
     

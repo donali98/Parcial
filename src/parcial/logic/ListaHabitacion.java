@@ -20,14 +20,13 @@ public class ListaHabitacion {
     }
     //Cambiar
     private static void pedirCantiPisos(){
-        /*Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         while (true){
            try {
                System.out.println("Ingrese la cantidad de pisos del hotel: ");
                cantiPisos = scanner.nextInt();
-               if (cantiPisos>26 || cantiPisos<3){
-                   System.out.println("La cantidad de pisos no puede ser menor que 3 y mayo
-        this.menuHoter a 26");
+               if (!(cantiPisos<=6 && cantiPisos>=3)){
+                   System.out.println("Cantidad de pisos no puede ser menor a 3 y mayor a 6");
                }
                else break;
            }
@@ -35,8 +34,7 @@ public class ListaHabitacion {
                scanner.next();
                System.out.println("Valor no valido");
            }
-        }*/
-        cantiPisos =3;
+        }
     }
     
     private static void llenarValoresUnicode(){

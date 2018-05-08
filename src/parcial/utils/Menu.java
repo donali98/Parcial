@@ -40,37 +40,6 @@ private static Menu menu;
     }
     //Metodo del menu principal
     public void menuPrincipal(){
-        /*int selected = 10;
-        Scanner reader = new Scanner(System.in);
-        while (selected!=0){
-
-            try {
-
-                this.crearMenu(new String[]{"1-Gestionar personal","2-Gestionar hotel","0-Salir del sistema"});
-                selected = reader.nextInt();
-                switch (selected){
-                    case 1:
-                        this.menuEmpleados();
-                        selected = 0;
-                        break;
-                    case 2:
-                        this.menuHotel();
-                        selected = 0;
-                        break;
-                    case 0:
-                        System.out.println("Saliendo del sistema");
-                        break;
-                    default:
-                        System.out.println("No ha ingresado una opcion valida");
-                        break;
-                }
-            }
-            catch (Exception e){
-                reader.next();
-                System.out.println("Valor no valido");
-            }
-
-        }*/
         this.menuHotel();
     }
     public void menuHotel(){
@@ -160,14 +129,12 @@ private static Menu menu;
         if(ListaPaquetes.getInstance().getPaquetes().size() == 0) {
 
             //Creando los 3 paquete
-            /*int canti[] = ListaPaquetes.pedirServicios();
+            int canti[] = ListaPaquetes.pedirServicios();
             Double[] preciosPaquetes = Precios.pedirPrecioPaquetes();
             ListaPaquetes.getInstance().addPaquete("Premium",canti[0], preciosPaquetes[0]);
             ListaPaquetes.getInstance().addPaquete("Basico",canti[1],preciosPaquetes[1]);
-            ListaPaquetes.getInstance().addPaquete("Ninguno",0,0.0);*/
-            ListaPaquetes.getInstance().addPaquete("Premium",1, 30.45);
-            ListaPaquetes.getInstance().addPaquete("Basico",1,9.99);
             ListaPaquetes.getInstance().addPaquete("Ninguno",0,0.0);
+
 
         }
         if(origen!=0){

@@ -51,7 +51,7 @@ public class ListaReservacion {
 
                 while (op!=0){
                     try {
-                        this.mostrarHabitaciones("habilitadas");
+                        this.mostrarHabitaciones("disponibles");
                         System.out.println("Elija una habitacion por su codigo");
                         String codigoHabitacion = scanner.next().toUpperCase();
                         Habitacion habitacionAReservar = ListaHabitacion.validarCodigo(codigoHabitacion);
